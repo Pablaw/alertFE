@@ -5,9 +5,7 @@ import styled from "styled-components";
 function Header() {
   return (
     <HeadTitle>
-      <Link to='/'>  
-      {/* 이미지 추가 예정 */} Logo
-      </Link>
+      <Link to="/">{/* 이미지 추가 예정 */} Logo</Link>
       <Link to="/login">Login</Link>
     </HeadTitle>
   );
@@ -45,10 +43,13 @@ const HeadTitle = styled.div`
 
 const LayoutContainer = styled.div`
   min-height: 1024px;
+  width: 1440px;
 `;
 
 const FooterDiv = styled.div`
   color: var(--color-footer);
   position: relative;
-  transform: translate(50%, -90%);
+  transform: translateY(-90%);
+  display: flex;
+  justify-content: center;
 `;
