@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-
-function Header () {
+function Header() {
   return (
     <HeadTitle>
       <Link to='/'>  
@@ -11,33 +10,30 @@ function Header () {
       </Link>
       <Link to="/login">Login</Link>
     </HeadTitle>
-  )
+  );
 }
 
-function Footer () {
-  return (
-    <div>
-    </div>
-  )
+function Footer() {
+  return <FooterDiv>Copyright alert</FooterDiv>;
 }
 
-
-function Layout({children}) {
+function Layout({ children }) {
   return (
-    <div>
+    <LayoutContainer>
       <Header />
       {children}
       <Footer />
-    </div>
-  )
+    </LayoutContainer>
+  );
 }
-
 
 export default Layout;
 
 const HeadTitle = styled.div`
-  width: 1200px;
-  height: 60px;
+  width: 100%;
+  min-width: 800px;
+  height: 80px;
+  background-color: var(--color-header);
   overflow: hidden;
   padding: 5px;
   margin: auto;
@@ -45,8 +41,14 @@ const HeadTitle = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #D08856;
-  border-radius: 5px;
-  box-shadow: 5px 5px 2px 1px #AAAAAA;
+`;
+
+const LayoutContainer = styled.div`
+  min-height: 1024px;
+`;
+
+const FooterDiv = styled.div`
+  color: var(--color-footer);
+  position: relative;
+  transform: translate(50%, -90%);
 `;
