@@ -1,0 +1,14 @@
+{
+  "calendars": [
+    {
+      "id": 1,
+      "content": "테스트 중 입니다.",
+      "endTime": ""
+    },
+    {
+      "id": 2,
+      "content": "테스트 중 입니다.(2)",
+      "endTime": ""
+    }
+  ]
+}

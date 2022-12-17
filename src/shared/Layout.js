@@ -5,8 +5,10 @@ import styled from "styled-components";
 function Header() {
   return (
     <HeadTitle>
-      <Link to="/">{/* 이미지 추가 예정 */}</Link>
-      <Link to="/member/login">Login</Link>
+      <Link to='/'>  
+      {/* 이미지 추가 예정 */} Logo
+      </Link>
+      <Link to="/login">Login</Link>
     </HeadTitle>
   );
 }

@@ -4,7 +4,8 @@ import Layout from "./Layout";
 import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/LogIn";
-import AddEdit from "../pages/AddEdit";
+import AddEdit from "../pages/Add";
+import Edit from "../pages/Edit";
 
 const Router = () => {
   return (
@@ -15,7 +16,8 @@ const Router = () => {
             <Route path="/" element={<Main />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<Login />} />
-            <Route path="addedit/:id" element={<AddEdit />} />
+            <Route path="add" element={<AddEdit />} />
+            <Route path="edit/:id" element={<Edit />} />
           </Route>
         </Routes>
       </Layout>
