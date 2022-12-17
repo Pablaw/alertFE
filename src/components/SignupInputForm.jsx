@@ -6,6 +6,7 @@ const StBox = styled.div`
   height: 100px;
   border: 1px solid red;
   margin: 20px;
+  border: 1px solid var(--color-border);
   font-family: KoPubWorldBatang, sans-serif, Arial;
 `;
 
