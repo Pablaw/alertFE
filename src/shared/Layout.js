@@ -42,8 +42,8 @@ const HeadTitle = styled.div`
 `;
 
 const LayoutContainer = styled.div`
-  min-height: 1024px;
-  width: 1440px;
+  /* min-height: 1024px; */
+  width: 100%;
 `;
 
 const FooterDiv = styled.div`
