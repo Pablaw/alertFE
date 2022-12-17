@@ -6,6 +6,7 @@ const StBox = styled.div`
   height: 100px;
   border: 1px solid red;
   margin: 20px;
+  font-family: KoPubWorldBatang, sans-serif, Arial;
 `;
 
 const SignupInputForm = () => {
