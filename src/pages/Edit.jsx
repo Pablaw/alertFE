@@ -1,8 +1,8 @@
 import React from "react";
 
-const AddEdit = () => {
+const Edit = () => {
   return <div></div>
 };
 
 
-export default AddEdit;
+export default Edit;

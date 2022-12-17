@@ -7,9 +7,9 @@ function Header () {
   return (
     <HeadTitle>
       <Link to='/'>  
-      {/* 이미지 추가 예정 */}
+      {/* 이미지 추가 예정 */} Logo
       </Link>
-      <Link to="/member/login">Login</Link>
+      <Link to="/login">Login</Link>
     </HeadTitle>
   )
 }
@@ -37,7 +37,7 @@ export default Layout;
 
 const HeadTitle = styled.div`
   width: 1200px;
-  height: 75px;
+  height: 60px;
   overflow: hidden;
   padding: 5px;
   margin: auto;
@@ -45,4 +45,8 @@ const HeadTitle = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background-color: #D08856;
+  border-radius: 5px;
+  box-shadow: 5px 5px 2px 1px #AAAAAA;
 `;
