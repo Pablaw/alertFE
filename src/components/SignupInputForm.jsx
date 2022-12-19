@@ -31,7 +31,6 @@ const SignUpInputForm = () => {
   ];
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("Submit clicked");
 
     if (inputSubmitValue.userName === "") {
       setInputInvalid({ ...inputInvalid, userName: true });
