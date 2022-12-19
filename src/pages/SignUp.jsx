@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import SignupInputForm from "../components/SignupInputForm";
+import SignUpInputForm from "../components/SignUpInputForm";
 
 const SignUp = () => {
   return (
     <Container>
-      <SignupInputForm />
+      <SignUpInputForm />
     </Container>
   );
 };
