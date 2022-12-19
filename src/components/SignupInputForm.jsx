@@ -6,9 +6,21 @@ import { useNavigate } from "react-router-dom";
 import theme from "../styles/theme";
 import Button from "./elements/Button";
 
-const SignupInputForm = () => {
-  const [inputValue, setInputValue] = useState({ id: "", value: "" });
-  console.log(inputValue);
+const SignUpInputForm = () => {
+  const [inputSubmitValue, setInputSubmitValue] = useState({
+    userName: "",
+    nickName: "",
+    password: "",
+    passwordCheck: "",
+  });
+  const [inputInvalid, setInputInvalid] = useState({
+    userName: false,
+    nickName: false,
+    password: false,
+    passwordCheck: false,
+  });
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
+
   const navigate = useNavigate();
   let num = 0;
   const inputValueArr = [
@@ -20,6 +32,21 @@ const SignupInputForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Submit clicked");
+
+    if (inputSubmitValue.userName === "") {
+      setInputInvalid({ ...inputInvalid, userName: true });
+    } else if (inputSubmitValue.nickName === "") {
+      setInputInvalid({ ...inputInvalid, nickName: true });
+    } else if (inputSubmitValue.password === "") {
+      setInputInvalid({ ...inputInvalid, password: true });
+    } else if (inputSubmitValue.passwordCheck === "") {
+      setInputInvalid({ ...inputInvalid, passwordCheck: true });
+    }
+    if (inputSubmitValue.password !== inputSubmitValue.passwordCheck) {
+      setPasswordInvalid(true);
+    } else {
+      setPasswordInvalid(false);
+    }
   };
   const cancleBtnHandler = () => {
     navigate("/");
@@ -27,8 +54,18 @@ const SignupInputForm = () => {
   const onChangeInputHandler = (e) => {
     const inputId = e.target.id;
     const Value = e.target.value;
-    setInputValue({ ...inputValue, id: inputId, value: Value });
+    setInputSubmitValue({ ...inputSubmitValue, [inputId]: Value });
+    setInputInvalid({
+      ...inputInvalid,
+      userName: false,
+      nickName: false,
+      password: false,
+      passwordCheck: false,
+    });
+    setPasswordInvalid(false);
   };
+  // ! ID => 소문자 or 숫자, 필수 X 5~15자리
+  // ! PW => 대문자 & 소문자 & 숫자 8자리 ~ 15자리
   return (
     <Container>
       <InputBox>
@@ -36,22 +73,51 @@ const SignupInputForm = () => {
           item.id === "password" || item.id === "passwordCheck" ? (
             <InputLabel key={num++}>
               <InputTitle>{item.title}</InputTitle>
-              <InputValue
-                type="password"
-                id={item.id}
-                maxLength={12}
-                onChange={onChangeInputHandler}
-              />
+              <InputWrap>
+                <InputValue
+                  type="password"
+                  id={item.id}
+                  minLength={5}
+                  maxLength={15}
+                  // value={inputSubmitValue}
+                  onChange={onChangeInputHandler}
+                />
+                {item.id === "password" && inputInvalid.password === true ? (
+                  <AlertText>비밀번호를 입력해주세요.</AlertText>
+                ) : item.id === "passwordCheck" &&
+                  inputInvalid.passwordCheck === true ? (
+                  <AlertText>비밀번호 확인을 입력해주세요.</AlertText>
+                ) : item.id === "passwordCheck" && passwordInvalid ? (
+                  <AlertText>비밀번호가 일치하지 않습니다.</AlertText>
+                ) : (
+                  <AlertText></AlertText>
+                )}
+              </InputWrap>
             </InputLabel>
           ) : (
             <InputLabel key={num++}>
               <InputTitle>{item.title}</InputTitle>
-              <InputValue
-                type="text"
-                id={item.id}
-                maxLength={12}
-                onChange={onChangeInputHandler}
-              />
+              <InputWrap>
+                <InputValue
+                  type="text"
+                  id={item.id}
+                  minLength={8}
+                  maxLength={15}
+                  onChange={onChangeInputHandler}
+                />
+                {console.log(
+                  item.id,
+                  inputInvalid.userName,
+                  inputInvalid.nickName
+                )}
+                {item.id === "userName" && inputInvalid.userName === true ? (
+                  <AlertText>아이디를 입력해주세요.</AlertText>
+                ) : item.id === "nickName" && inputInvalid.nickName === true ? (
+                  <AlertText>닉네임을 입력해주세요.</AlertText>
+                ) : (
+                  <AlertText></AlertText>
+                )}
+              </InputWrap>
             </InputLabel>
           )
         )}
@@ -81,8 +147,12 @@ const InputBox = styled.form`
 const InputLabel = styled.label`
   display: flex;
   justify-content: space-between;
-  margin: 60px 50px 0 50px;
+  margin: 30px 50px 0 50px;
   align-items: center;
+`;
+const InputWrap = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const InputTitle = styled.span``;
@@ -96,6 +166,14 @@ const InputValue = styled.input`
     outline: none;
   }
 `;
+const AlertText = styled.div`
+  font-family: KoPubWorldBatang;
+  font-size: 18px;
+  color: red;
+  text-align: center;
+  height: 28px;
+`;
+
 const ButtonDiv = styled.div`
   display: flex;
   width: 300px;
@@ -103,4 +181,4 @@ const ButtonDiv = styled.div`
   margin: 50px auto;
 `;
 
-export default SignupInputForm;
+export default SignUpInputForm;
