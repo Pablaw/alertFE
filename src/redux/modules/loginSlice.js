@@ -10,15 +10,26 @@ const initialState = {
 export const __gettoken = createAsyncThunk(
   "/auth/login",
   async (payload, thunkAPI) => {
+    // console.log(payload)
     try {
-      const data = await axios.get("http://localhost:3001/auth/login");
-      console.log(data);
-      return thunkAPI.fulfillWithValue(data.data);
+      console.log(payload);
+      await axios.post("http://alertservice.shop:8080/auth/login", payload);
+      return thunkAPI.fulfillWithValue();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const {} = loginSlice.actions;
-export default loginSlice.reducer;
+export const logInSlice = createSlice({
+  name: "calendars",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(__gettoken.fulfilled, (state, action) => {
+      state.calendars = action.payload;
+    });
+  },
+});
+
+export default logInSlice.reducer;
