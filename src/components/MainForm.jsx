@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getcalendars } from "../redux/modules/calendarsSlice";
+
 import MainModal from "./MainModal";
 
 const MainForm = () => {
@@ -69,7 +70,6 @@ const MainForm = () => {
 };
 
 export default MainForm;
-
 export const StMain = styled.form`
   display: flex;
   align-items: center;
@@ -121,3 +121,4 @@ const StBox = styled.div`
   margin-top: 10px;
   box-shadow: 5px 5px 2px 1px #fedd89;
 `;
+

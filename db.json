@@ -10,5 +10,42 @@
       "content": "테스트 중 입니다.(2)",
       "endTime": ""
     }
+  ],
+  "signup": [
+    {
+      "id": 1,
+      "username": "기본이름",
+      "nickname": "기본닉네임",
+      "password": "기본 비밀번호"
+    },
+    {
+      "username": "123",
+      "nickname": "123",
+      "password": "123",
+      "id": 2
+    },
+    {
+      "username": "234",
+      "nickname": "234",
+      "password": "234",
+      "id": 3
+    }
+  ],
+  "login": [
+    {
+      "id": 1,
+      "username": "기본이름",
+      "password": "기본비밀번호"
+    },
+    {
+      "userName": "123",
+      "password": "123",
+      "id": 2
+    },
+    {
+      "userName": "234",
+      "password": "234",
+      "id": 3
+    }
   ]
 }

@@ -12,7 +12,7 @@ const SignUp = () => {
 };
 
 const Container = styled.div`
-  height: 1024px;
+  height: 818px;
 `;
 
 export default SignUp;

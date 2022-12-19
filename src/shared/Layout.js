@@ -44,6 +44,14 @@ const HeadTitle = styled.div`
   justify-content: space-between;
 `;
 
+const LogoImg = styled.img`
+  text-align: center;
+  align-items: center;
+  background-size: cover;
+  width: 115px;
+  padding: 0px 0px 15px 15px;
+`;
+
 const LayoutContainer = styled.div`
   min-height: 1024px;
   width: 100%;
@@ -56,14 +64,6 @@ const FooterDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-const LogoImg = styled.img`
-  text-align: center;
-  align-content: center;
-  background-size: cover;
-  width: 170px;
-  padding: 0px 0px 15px 15px;
-`
 
 const LoginBtn = styled.button`
   height: 50px;
