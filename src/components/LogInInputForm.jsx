@@ -2,21 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import Button from "./elements/Button";
 
 const LogInInputForm = () => {
   const navigate = useNavigate();
-  const [inputState, setInputState] = useState({ userName: "", password: "" });
+  const [inputState, setInputState] = useState({ username: "", password: "" });
 
   const onChangeInputHandler = (e) => {
     const logInInputId = e.target.id;
     const logInInputValue = e.target.value;
-    setInputState({ ...inputState, [logInInputId]: [logInInputValue] });
+    setInputState({ ...inputState, [logInInputId]: logInInputValue });
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    setInputState({ ...inputState, userName: "", password: "" });
+    // ! 서버통신
+    console.log(inputState);
+    axios.post("http://alertservice.shop:8080/auth/login", inputState);
+    setInputState({ ...inputState, username: "", password: "" });
   };
   const cancleBtnHandler = (e) => {
     navigate("/");
@@ -27,11 +31,11 @@ const LogInInputForm = () => {
         <InputLabel>
           <InputTitle>아이디</InputTitle>
           <InputValue
-            id="userName"
+            id="username"
             minlength={5}
             maxLength={15}
             onChange={onChangeInputHandler}
-            value={inputState.userName}
+            value={inputState.username}
           />
         </InputLabel>
         <InputLabel>

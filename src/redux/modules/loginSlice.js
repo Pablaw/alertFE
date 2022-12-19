@@ -11,7 +11,7 @@ export const __gettoken = createAsyncThunk(
   "/auth/login",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get("http://localhost:3001/auth/signup");
+      const data = await axios.get("http://localhost:3001/auth/login");
       console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
