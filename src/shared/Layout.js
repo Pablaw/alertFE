@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../img/alert.png";
+import logo from "../img/Alert.png"
 
 function Header() {
   return (
     <HeadTitle>
       <Link to="/">
         <LogoImg src={logo} />
-      </Link>
-      <Link to="/login">Login</Link>
+        </Link>
+      <Link to="/login"><LoginBtn>Login</LoginBtn></Link>
     </HeadTitle>
   );
 }
@@ -43,6 +43,7 @@ const HeadTitle = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const LogoImg = styled.img`
   text-align: center;
   align-items: center;
@@ -52,7 +53,7 @@ const LogoImg = styled.img`
 `;
 
 const LayoutContainer = styled.div`
-  /* min-height: 1024px; */
+  min-height: 1024px;
   width: 100%;
 `;
 
@@ -63,3 +64,11 @@ const FooterDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const LoginBtn = styled.button`
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 1.0em;
+`

@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
 import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
-import LogIn from "../pages/LogIn";
-import AddEdit from "../pages/Add";
+import Login from "../pages/LogIn";
+import Add from "../pages/Add";
 import Edit from "../pages/Edit";
 
 const Router = () => {
@@ -15,8 +15,8 @@ const Router = () => {
           <Route>
             <Route path="/" element={<Main />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<LogIn />} />
-            <Route path="add" element={<AddEdit />} />
+            <Route path="login" element={<Login />} />
+            <Route path="add" element={<Add />} />
             <Route path="edit/:id" element={<Edit />} />
           </Route>
         </Routes>

@@ -3,89 +3,140 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getcalendars, __postcalendars } from "../redux/modules/calendarsSlice";
-
-function appendYear(){
-	var date = new Date();
-	var year = date.getFullYear();
-	var selectValue = document.getElementById("year");
-	var optionIndex = 0;
-	for(var i=year-20;i<=year+5;i++){
-			selectValue.add(new Option(i,i),optionIndex++); 
-  }
-}
-
-function appendMonth(){  // window.onload
-	var selectValue = document.getElementById("month"); 
-	var optionIndex = 0;
-	for(var i=1;i<=12;i++){
-			selectValue.add(new Option(i,i),optionIndex++);
-	}
-}
-
-function appendDay(){
-	var selectValue = document.getElementById("day");
-	var optionIndex = 0;
-	for(var i=1;i<=31;i++){
-			selectValue.add(new Option(i,i),optionIndex++);
-	}
-} 
+import { __postcalendars } from "../redux/modules/calendarsSlice";
 
 const AddForm = () => {
+  const [form, setForm] = useState({
+    year: "2022",
+    month: "",
+    day: "01",
+    hour: "",
+    minute: "",
+  });
+
+  const onChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
+
+  const now = new Date();
+  let years = [];
+  for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
+    years.push(y);
+  }
+
+  let month = [];
+  for (let m = 1; m <= 12; m += 1) {
+    if (m < 10) {
+      // 날짜가 2자리로 나타나야 했기 때문에 1자리 월에 0을 붙혀준다
+      month.push("0" + m.toString());
+    } else {
+      month.push(m.toString());
+    }
+  }
+
+  let days = [];
+  let date = new Date(form.year, form.month, 0).getDate();
+  for (let d = 1; d <= date; d += 1) {
+    if (d < 10) {
+      // 날짜가 2자리로 나타나야 했기 때문에 1자리 일에 0을 붙혀준다
+      days.push("0" + d.toString());
+    } else {
+      days.push(d.toString());
+    }
+  }
+
+  let hours = [];
+  for (let i = 0; i <= 23; i += 1) {
+    hours.push(i);
+  }
+
+  let minute = [];
+  for (let i = 0; i <= 50; i += 10) {
+    if (i < 10) {
+      minute.push("0" + i.toString());
+    } else {
+      minute.push(i.toString());
+    }
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [calendar, setCalendar] = useState({
-    id: "",
     content: "",
     endTime: "",
-  })
+  });
 
-  const onsubmit = (e) => {
-    e.preventDefault();
-    dispatch(__postcalendars(calendar.id, calendar.content, calendar.endTime));
-    setCalendar();
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setCalendar({ ...calendar, [name]: value });
   };
 
-  useEffect (() => {
-
-  })
+  const onSubmitHandler = () => {
+    calendar.endTime = Date.parse(time);
+    dispatch(__postcalendars({ ...calendar }));
+    navigate("/");
+  };
 
   return (
     <StAdd>
-      <StAddForm onsubmit={onsubmit}>
+      <StAddForm onSubmit={onSubmitHandler}>
         <StComment>
           <StMent>내용:</StMent>
-          <CommentInput 
+          <CommentInput
             placeholder="내용을 입력해주세요"
             type="text"
-            name="calendar.content"
-            onChange={(e)=>setCalendar(e.target.value)}
-            value={calendar.content}
-            ></CommentInput>
+            name="content"
+            onChange={changeHandler}
+            defaultvalue={calendar.content}
+          ></CommentInput>
         </StComment>
         <StComment>
           <StMent>마감날짜:</StMent>
-          <StSelect id="year" onChange={appendYear}>
-            <option></option>
+          <StSelect value={form.year} name="year" onChange={onChange}>
+            {years?.map((year) => (
+              <option value={year} key={year}>
+                {year}
+              </option>
+            ))}
           </StSelect>
           <h3>년</h3>
-          <StSelect id="month" onChange={appendMonth}>
-            <option></option>
+          <StSelect value={form.month} name="month" onChange={onChange}>
+            {month?.map((mon) => (
+              <option value={mon} key={mon}>
+                {mon}
+              </option>
+            ))}
           </StSelect>
           <h3>월</h3>
-          <StSelect id="day" onChange={appendDay}>
-            <option></option>
+          <StSelect value={form.day} name="day" onChange={onChange}>
+            {days?.map((day) => (
+              <option value={day} key={day}>
+                {day}
+              </option>
+            ))}
           </StSelect>
           <h3>일</h3>
         </StComment>
         <StComment>
           <StMent>마감시간:</StMent>
-          <StSelect>
-            <option></option>
+          <StSelect value={form.hour} name="hour" onChange={onChange}>
+            {hours?.map((hour) => (
+              <option value={hour} key={hour}>
+                {hour}
+              </option>
+            ))}
           </StSelect>
           <h3>시</h3>
-          <StSelect>
-            <option></option>
+          <StSelect value={form.minute} name="minute" onChange={onChange}>
+            {minute?.map((minutes) => (
+              <option value={minutes} key={minutes}>
+                {minutes}
+              </option>
+            ))}
           </StSelect>
           <h3>분</h3>
         </StComment>
