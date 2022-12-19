@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import theme from "../styles/theme";
 import Button from "./elements/Button";
 
-const SignUpInputForm = () => {
+const SignupInputForm = () => {
   const [inputSubmitValue, setInputSubmitValue] = useState({
     userName: "",
     nickName: "",
@@ -180,4 +180,4 @@ const ButtonDiv = styled.div`
   margin: 50px auto;
 `;
 
-export default SignUpInputForm;
+export default SignupInputForm;
