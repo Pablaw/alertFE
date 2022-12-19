@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/LogIn";
-import AddEdit from "../pages/Add";
+import Add from "../pages/Add";
 import Edit from "../pages/Edit";
 
 const Router = () => {
@@ -16,7 +16,7 @@ const Router = () => {
             <Route path="/" element={<Main />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<Login />} />
-            <Route path="add" element={<AddEdit />} />
+            <Route path="add" element={<Add />} />
             <Route path="edit/:id" element={<Edit />} />
           </Route>
         </Routes>

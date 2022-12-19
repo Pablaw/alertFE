@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../img/Alert.png"
 
 function Header() {
   return (
     <HeadTitle>
-      <Link to="/">{/* 이미지 추가 예정 */} Logo</Link>
-      <Link to="/login">Login</Link>
+      <Link to="/">
+        <LogoImg src={logo} />
+        </Link>
+      <Link to="/login"><LoginBtn>Login</LoginBtn></Link>
     </HeadTitle>
   );
 }
@@ -43,7 +46,7 @@ const HeadTitle = styled.div`
 
 const LayoutContainer = styled.div`
   min-height: 1024px;
-  width: 1440px;
+  width: 100%;
 `;
 
 const FooterDiv = styled.div`
@@ -53,3 +56,19 @@ const FooterDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const LogoImg = styled.img`
+  text-align: center;
+  align-content: center;
+  background-size: cover;
+  width: 170px;
+  padding: 0px 0px 15px 15px;
+`
+
+const LoginBtn = styled.button`
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 1.0em;
+`
