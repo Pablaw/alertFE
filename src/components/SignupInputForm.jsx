@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import theme from "../styles/theme";
 import Button from "./elements/Button";
@@ -23,6 +24,7 @@ const SignupInputForm = () => {
 
   const navigate = useNavigate();
   let num = 0;
+
   const inputValueArr = [
     { id: "userName", title: "아이디" },
     { id: "nickName", title: "닉네임" },
@@ -31,6 +33,14 @@ const SignupInputForm = () => {
   ];
   const submitHandler = (e) => {
     e.preventDefault();
+
+    const signUp = {
+      username: inputSubmitValue.userName,
+      nickname: inputSubmitValue.nickName,
+      password: inputSubmitValue.password,
+    };
+
+    axios.post("http://alertservice.shop:8080/auth/signup", signUp);
 
     if (inputSubmitValue.userName === "") {
       setInputInvalid({ ...inputInvalid, userName: true });
@@ -46,7 +56,10 @@ const SignupInputForm = () => {
     } else {
       setPasswordInvalid(false);
     }
+
+    console.log(inputSubmitValue);
   };
+
   const cancleBtnHandler = () => {
     navigate("/");
   };

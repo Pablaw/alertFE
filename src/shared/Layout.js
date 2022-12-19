@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../img/alert.png";
 
 function Header() {
   return (
     <HeadTitle>
-      <Link to="/">{/* 이미지 추가 예정 */} Logo</Link>
+      <Link to="/">
+        <LogoImg src={logo} />
+      </Link>
       <Link to="/login">Login</Link>
     </HeadTitle>
   );
@@ -39,6 +42,13 @@ const HeadTitle = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+`;
+const LogoImg = styled.img`
+  text-align: center;
+  align-items: center;
+  background-size: cover;
+  width: 115px;
+  padding: 0px 0px 15px 15px;
 `;
 
 const LayoutContainer = styled.div`
