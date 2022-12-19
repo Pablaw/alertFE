@@ -4,6 +4,7 @@ import { useState } from "react";
 import { dispatch, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Cookies, useCookies } from "react-cookie";
 
 import { __gettoken } from "../redux/modules/logInSlice";
 import Button from "./elements/Button";
@@ -12,23 +13,27 @@ const LogInInputForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputState, setInputState] = useState({ username: "", password: "" });
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  console.log(cookies);
 
   const onChangeInputHandler = (e) => {
     const logInInputId = e.target.id;
     const logInInputValue = e.target.value;
     setInputState({ ...inputState, [logInInputId]: logInInputValue });
   };
-  const submitHandler = (e) => {
+  const SubmitHandler = (e) => {
     e.preventDefault();
     // ! 서버통신
-    console.log(inputState);
     dispatch(__gettoken(inputState));
-    // axios.post("http://alertservice.shop:8080/auth/login", inputState);
+
+    setCookie("accessToken", "이곳에토큰값입력");
+
     setInputState({ ...inputState, username: "", password: "" });
-    navigate("/");
+    // navigate("/"); //!로그인 후 메인페이지 이동
   };
   const cancleBtnHandler = (e) => {
-    navigate("/");
+    removeCookie("accessToken");
+    // navigate("/"); //!취소 후 메인페이지 이동
   };
   return (
     <Container>
@@ -55,7 +60,7 @@ const LogInInputForm = () => {
           />
         </InputLabel>
         <ButtonDiv>
-          <Button onClick={submitHandler}>로그인</Button>
+          <Button onClick={SubmitHandler}>로그인</Button>
           <Button onClick={cancleBtnHandler}>취소</Button>
         </ButtonDiv>
       </InputBox>
