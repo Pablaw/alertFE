@@ -1,15 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../img/Alert.png"
+import logo from "../img/Alert.png";
 
 function Header() {
   return (
     <HeadTitle>
       <Link to="/">
         <LogoImg src={logo} />
-        </Link>
-      <Link to="/login"><LoginBtn>Login</LoginBtn></Link>
+      </Link>
+      <Link to="/login">
+        <LoginBtn>Login</LoginBtn>
+      </Link>
     </HeadTitle>
   );
 }
@@ -48,7 +50,7 @@ const LogoImg = styled.img`
   text-align: center;
   align-items: center;
   background-size: cover;
-  width: 115px;
+  width: 170px;
   padding: 0px 0px 15px 15px;
 `;
 
@@ -70,5 +72,5 @@ const LoginBtn = styled.button`
   width: 100px;
   border-radius: 10px;
   background-color: white;
-  font-size: 1.0em;
-`
+  font-size: 1em;
+`;
