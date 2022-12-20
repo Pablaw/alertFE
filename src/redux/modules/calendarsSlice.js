@@ -6,13 +6,14 @@ const initialState = {
   isLoading: false,
   error: null,
 }
-
+//  "http://localhost:3001/calendars"
+//  "http://3.38.135.135/calendars"
 export const __getcalendars = createAsyncThunk(
-  "calendars/get",
-  async (payload, thunkAPI) => {
+  "calendars/calendarList/get",
+  async ( payload, thunkAPI ) => {
     try {
-      const data = await axios.get("http://localhost:3001/calendars" );
-      // console.log(data)
+      const data = await axios.get("http://localhost:3001/calendars");
+      console.log(data)
       return thunkAPI.fulfillWithValue(data.data)
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -25,7 +26,7 @@ export const __postcalendars = createAsyncThunk(
   async (payload, thunkAPI) => {
     // console.log(payload)
     try {
-      await axios.post("http://localhost:3001/calendars" , payload);
+      await axios.post("http://localhost:3001/calendars", payload);
       return thunkAPI.fulfillWithValue();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

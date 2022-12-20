@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { __delcalendars } from "../redux/modules/calendarsSlice";
+import Button from "./elements/Button";
 
 const MainModal = (props) => {
   const dispatch = useDispatch();
   const { modals, calendar, mods } = props;
+  const [isEdit, setIsEdit] = useState(true);
+  const [content, setContent] = useState();
   const [cald, setCald] = useState({});
   const cal = calendar?.find(
     (calendars) => parseInt(calendars.id) === modals + 1
@@ -23,12 +26,37 @@ const MainModal = (props) => {
           <ModalBody onClick={(e) => e.stopPropagation()}>
             <ModalCloseBtn onClick={() => !mods}>✖</ModalCloseBtn>
             <div>
-              <div>{cal.id}</div>
-              <div>{cal.content}</div>
-              <button onClick={() => onClickDeleteCalendar(cal.id)}>
-                삭제하기
-              </button>
-              <button>수정하기</button>
+              <StTime>
+                <div>등록시간</div>
+                <div>마감시간</div>
+              </StTime>
+              <StTimee>
+                <div>22/12/20 10시 30분</div>
+                <div>22/12/20 10시 30분</div>
+              </StTimee>
+              {isEdit ? (
+                <ContentDiv>{cal.content}</ContentDiv>
+              ) : (
+                <input
+                  type="text"
+                  id="content"
+                  value={content}
+                  onchange={(e) => setContent(e.target.value)}
+                />
+              )}
+              <BtnDiv>
+                <Button onClick={() => onClickDeleteCalendar(cal.id)}>
+                  삭제하기
+                </Button>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsEdit(false);
+                  }}
+                >
+                  {isEdit ? "수정하기" : "수정취소"}
+                </Button>
+              </BtnDiv>
             </div>
           </ModalBody>
         </Modal>
@@ -72,4 +100,28 @@ const ModalCloseBtn = styled.button`
   color: rgba(0, 0, 0, 0.7);
   background-color: transparent;
   font-size: 20px;
+`;
+
+const BtnDiv = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const ContentDiv = styled.div`
+  width: 500px;
+  height: 250px;
+  margin-top: 180px;
+  font-size: 1.5em;
+`;
+
+const StTime = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 40px 0px 40px;
+`;
+
+const StTimee = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

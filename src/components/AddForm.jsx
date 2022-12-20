@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __postcalendars } from "../redux/modules/calendarsSlice";
+import Button from "./elements/Button";
 
 const AddForm = () => {
   const [form, setForm] = useState({
@@ -141,14 +142,14 @@ const AddForm = () => {
           <h3>분</h3>
         </StComment>
         <StComment>
-          <CommentBtn>등록</CommentBtn>
-          <CommentBtn
+          <Button>등록</Button>
+          <Button
             onClick={() => {
               navigate("/");
             }}
           >
             취소
-          </CommentBtn>
+          </Button>
         </StComment>
       </StAddForm>
     </StAdd>
