@@ -1,29 +1,63 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 import Button from "./elements/Button";
 
 const LogInInputForm = () => {
   const navigate = useNavigate();
   const [inputState, setInputState] = useState({ username: "", password: "" });
-
+  // !토큰 선언
+  const [cookies, setCookie, removeCookie] = useCookies("");
+  //   const [cookieCheck, setCookieCheck] = useState(false); 나중에 모달 상태값으로 사용
+  console.log(cookies === "");
+  //! 쿠키 값 확인 후 페이지 이동
+  useEffect(
+    cookies !== ""
+      ? () => {
+          alert("비정상적인 접근입니다.");
+          navigate("/");
+        }
+      : null,
+    []
+  );
   const onChangeInputHandler = (e) => {
     const logInInputId = e.target.id;
     const logInInputValue = e.target.value;
+    console.log(logInInputId, logInInputValue);
     setInputState({ ...inputState, [logInInputId]: logInInputValue });
   };
-  const submitHandler = (e) => {
+  /* api 서버 통신
+http://alertservice.shop:8080/calendars
+*/
+  /* json-server 통신
+http://localhost:3009/calendars
+*/
+  const SubmitHandler = (e) => {
     e.preventDefault();
-    // ! 서버통신
-    console.log(inputState);
-    axios.post("http://alertservice.shop:8080/auth/login", inputState);
+    axios //! 서버통신
+      .post("http://alertservice.shop:8080/auth/login", inputState, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        //! 토큰 저장
+        const accessToken = res.headers.authorization.split(" ");
+        console.log(accessToken[0]);
+        setCookie("Authorization", `${accessToken[0]} ${accessToken[1]}`);
+      })
+      .catch((error) => console.log(error));
+    // ! 1Aa!1Aa!
+    //! 인풋 벨류 초기화
     setInputState({ ...inputState, username: "", password: "" });
+    navigate("/"); //!로그인 후 메인페이지 이동
   };
   const cancleBtnHandler = (e) => {
-    navigate("/");
+    // ! 토큰 삭제
+    removeCookie("accessToken");
+    // navigate("/"); //!취소 후 메인페이지 이동
   };
   return (
     <Container>
@@ -50,7 +84,7 @@ const LogInInputForm = () => {
           />
         </InputLabel>
         <ButtonDiv>
-          <Button onClick={submitHandler}>로그인</Button>
+          <Button onClick={SubmitHandler}>로그인</Button>
           <Button onClick={cancleBtnHandler}>취소</Button>
         </ButtonDiv>
       </InputBox>

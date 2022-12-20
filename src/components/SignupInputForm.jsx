@@ -40,7 +40,10 @@ const SignupInputForm = () => {
       password: inputSubmitValue.password,
     };
 
-    axios.post("http://alertservice.shop:8080/auth/signup", signUp);
+    axios
+      .post("http://alertservice.shop:8080/auth/signup", signUp)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
 
     if (inputSubmitValue.userName === "") {
       setInputInvalid({ ...inputInvalid, userName: true });
@@ -58,6 +61,7 @@ const SignupInputForm = () => {
     }
 
     console.log(inputSubmitValue);
+    navigate("/login");
   };
 
   const cancleBtnHandler = () => {
