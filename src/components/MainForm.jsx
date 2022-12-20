@@ -11,6 +11,7 @@ const MainForm = () => {
   const { isLoading, error, calendars } = useSelector(
     (state) => state.calendars
   );
+  console.log(calendars);
   const dispatch = useDispatch();
 
   const [modal, setModal] = useState();
@@ -24,7 +25,7 @@ const MainForm = () => {
   useEffect(() => {
     dispatch(__getcalendars());
   }, [dispatch]);
-
+  console.log(calendars);
   if (isLoading) {
     return <div>Loading....</div>;
   }
@@ -41,7 +42,9 @@ const MainForm = () => {
             return (
               <StBox key={calendar.id}>
                 {calendar.content}
-                <button type="button" onClick={() => openModal(i)}>상세보기</button>
+                <button type="button" onClick={() => openModal(i)}>
+                  상세보기
+                </button>
                 <MainModal
                   calendar={calendars}
                   modals={modal}
@@ -121,4 +124,3 @@ const StBox = styled.div`
   margin-top: 10px;
   box-shadow: 5px 5px 2px 1px #fedd89;
 `;
-

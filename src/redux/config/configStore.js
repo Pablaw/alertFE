@@ -5,7 +5,6 @@ import calendars from "../modules/calendarsSlice";
 /**
  * import 해온 것은 slice.reducer 입니다.
  */
-// import todos from "../modules/todosSlice";
 
 /**
  * 모듈(Slice)이 여러개인 경우

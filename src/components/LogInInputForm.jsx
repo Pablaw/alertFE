@@ -1,37 +1,61 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
-import { dispatch, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
-import { __gettoken } from "../redux/modules/logInSlice";
 import Button from "./elements/Button";
 
 const LogInInputForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputState, setInputState] = useState({ username: "", password: "" });
-  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
-  console.log(cookies);
-
+  // !토큰 선언
+  const [cookies, setCookie, removeCookie] = useCookies("");
+  //   const [cookieCheck, setCookieCheck] = useState(false); 나중에 모달 상태값으로 사용
+  console.log(cookies === "");
+  //! 쿠키 값 확인 후 페이지 이동
+  useEffect(
+    cookies !== ""
+      ? () => {
+          alert("비정상적인 접근입니다.");
+          navigate("/");
+        }
+      : null,
+    []
+  );
   const onChangeInputHandler = (e) => {
     const logInInputId = e.target.id;
     const logInInputValue = e.target.value;
+    console.log(logInInputId, logInInputValue);
     setInputState({ ...inputState, [logInInputId]: logInInputValue });
   };
+  /* api 서버 통신
+http://alertservice.shop:8080/calendars
+*/
+  /* json-server 통신
+http://localhost:3009/calendars
+*/
   const SubmitHandler = (e) => {
     e.preventDefault();
-    // ! 서버통신
-    dispatch(__gettoken(inputState));
-
-    setCookie("accessToken", "이곳에토큰값입력");
-
+    axios //! 서버통신
+      .post("http://alertservice.shop:8080/auth/login", inputState, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        //! 토큰 저장
+        const accessToken = res.headers.authorization.split(" ");
+        console.log(accessToken[0]);
+        setCookie("Authorization", `${accessToken[0]} ${accessToken[1]}`);
+      })
+      .catch((error) => console.log(error));
+    // ! 1Aa!1Aa!
+    //! 인풋 벨류 초기화
     setInputState({ ...inputState, username: "", password: "" });
-    // navigate("/"); //!로그인 후 메인페이지 이동
+    navigate("/"); //!로그인 후 메인페이지 이동
   };
   const cancleBtnHandler = (e) => {
+    // ! 토큰 삭제
     removeCookie("accessToken");
     // navigate("/"); //!취소 후 메인페이지 이동
   };
