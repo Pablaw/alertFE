@@ -3,15 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getcalendars } from "../redux/modules/calendarsSlice";
-
 import MainModal from "./MainModal";
 
 const MainForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isLoading, error, calendars } = useSelector(
     (state) => state.calendars
   );
-  const dispatch = useDispatch();
 
   const [modal, setModal] = useState();
   const [mod, setMod] = useState(false);
@@ -40,8 +39,8 @@ const MainForm = () => {
           {calendars?.map((calendar, i) => {
             return (
               <StBox key={calendar.id}>
-                {calendar.content}
-                <button type="button" onClick={() => openModal(i)}>상세보기</button>
+                <Stdiv>{calendar.content}</Stdiv>
+                <DetailBtn type="button" onClick={() => openModal(i)}>상세보기</DetailBtn>
                 <MainModal
                   calendar={calendars}
                   modals={modal}
@@ -62,7 +61,9 @@ const MainForm = () => {
         </div>
         <StSuv>
           <div>지난일정</div>
-          <StBox>test</StBox>
+          <StBox>
+            <Stdiv>test</Stdiv>
+            </StBox>
         </StSuv>
       </StMain>
     </React.Fragment>
@@ -113,8 +114,12 @@ const StSuvv = styled.div`
 `;
 
 const StBox = styled.div`
-  ${({ theme }) => theme.common.flexCenterColumn}
-  width: 1150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 30px;
+  width: 1100px;
   height: 50px;
   border: 2px solid #efb730;
   border-radius: 10px;
@@ -122,3 +127,30 @@ const StBox = styled.div`
   box-shadow: 5px 5px 2px 1px #fedd89;
 `;
 
+const DetailBtn = styled.button`
+  font: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 15px;
+  background: white;
+  color: var(--color-font);
+  padding: 0.5rem 1.5rem;
+  box-shadow: 3px 3px 2px 1px #fedd89;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    color: white;
+    background: var(--color-border);
+    border-color: var(--color-border);
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Stdiv = styled.div`
+  width: 850px;
+  padding: 0px 0px 0px 120px;
+  display: flex;
+  justify-content: center;
+`
