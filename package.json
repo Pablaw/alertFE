@@ -2,6 +2,7 @@
   "name": "mini-project-fe",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://13.209.41.128:8080",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.14.1",

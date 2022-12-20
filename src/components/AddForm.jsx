@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __postcalendars } from "../redux/modules/calendarsSlice";
 import Button from "./elements/Button";
+import { useCookies } from "react-cookie";
 
 const AddForm = () => {
+  const [Cookie] = useCookies(["Authorization"]);
+
   const [form, setForm] = useState({
     year: "2022",
     month: "",
@@ -18,10 +21,16 @@ const AddForm = () => {
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
+    // ! console.log(name, value);
     setForm({ ...form, [name]: value });
   };
 
-  const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
+  //! 원문님 로직
+  // const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
+  const time =
+    new Date(form.year, form.month, form.day).getTime() +
+    form.hour * 60 * 60 * 1000 +
+    form.minute * 60 * 1000;
 
   const now = new Date();
   let years = [];
@@ -70,15 +79,17 @@ const AddForm = () => {
     content: "",
     endTime: "",
   });
-
+  console.log(time);
   const changeHandler = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setCalendar({ ...calendar, [name]: value });
   };
 
   const onSubmitHandler = () => {
     calendar.endTime = Date.parse(time);
-    dispatch(__postcalendars({ ...calendar }));
+    dispatch(__postcalendars([{ ...calendar, endTime: time }, Cookie]));
+    setForm({ year: "2022", month: "", day: "01", hour: "", minute: "" });
     navigate("/");
   };
 

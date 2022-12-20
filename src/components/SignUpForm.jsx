@@ -61,11 +61,10 @@ const SignupInputForm = () => {
     }
 
     console.log(inputSubmitValue);
-    navigate("/login");
   };
 
   const cancleBtnHandler = () => {
-    navigate("/");
+    navigate("/login");
   };
   const onChangeInputHandler = (e) => {
     const inputId = e.target.id;
@@ -92,6 +91,7 @@ const SignupInputForm = () => {
               <InputWrap>
                 <InputValue
                   type="password"
+                  placeholder="8자리 이상(특수문자, 대•소문자, 숫자 포함 )"
                   id={item.id}
                   minLength={5}
                   maxLength={15}
@@ -117,7 +117,7 @@ const SignupInputForm = () => {
                 <InputValue
                   type="text"
                   id={item.id}
-                  minLength={8}
+                  minLength={4}
                   maxLength={15}
                   onChange={onChangeInputHandler}
                 />
@@ -151,7 +151,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   font-family: KoPubWorldBatang;
-  font-size: 18px;
+  font-size: 17px;
 `;
 const InputBox = styled.form`
   width: 600px;
@@ -171,7 +171,9 @@ const InputWrap = styled.div`
   flex-direction: column;
 `;
 
-const InputTitle = styled.span``;
+const InputTitle = styled.span`
+  margin-bottom: 20px;
+`;
 const InputValue = styled.input`
   font: inherit;
   width: 350px;
@@ -184,9 +186,9 @@ const InputValue = styled.input`
 `;
 const AlertText = styled.div`
   font-family: KoPubWorldBatang;
-  font-size: 18px;
-  color: red;
-  text-align: center;
+  font-size: 16px;
+  color: #dc1414;
+  text-align: left;
   height: 28px;
 `;
 

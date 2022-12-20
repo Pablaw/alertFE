@@ -1,16 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/Alert.png";
+import { useCookies } from "react-cookie";
 
 function Header() {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+
+  const logOutHandler = () => {
+    removeCookie("Authorization");
+    navigate("/login");
+  };
+  const LoginHandler = () => {
+    navigate("/login");
+  };
   return (
     <HeadTitle>
       <Link to="/">
         <LogoImg src={logo} />
       </Link>
       <Link to="/login">
-        <LoginBtn>Login</LoginBtn>
+        {cookies.Authorization === undefined ? (
+          <LoginBtn onClick={LoginHandler}>Login</LoginBtn>
+        ) : (
+          <LoginBtn onClick={logOutHandler}>Logout</LoginBtn>
+        )}
       </Link>
     </HeadTitle>
   );
