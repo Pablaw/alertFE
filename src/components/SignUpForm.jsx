@@ -6,6 +6,7 @@ import axios from "axios";
 
 import theme from "../styles/theme";
 import Button from "./elements/Button";
+import Modal from "./elements/Modal";
 
 const SignupInputForm = () => {
   const [inputSubmitValue, setInputSubmitValue] = useState({
@@ -22,7 +23,6 @@ const SignupInputForm = () => {
   });
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [logInSubmit, setLogInSubmit] = useState(false);
-  console.log(logInSubmit);
 
   const navigate = useNavigate();
   let num = 0;
@@ -45,7 +45,7 @@ const SignupInputForm = () => {
     if (logInSubmit) {
       axios
         .post("http://13.209.41.128:8080/auth/signup", signUp)
-        .then((res) => console.log(res))
+        .then((res) => console.log(res.data.msg))
         .catch((error) => console.log(error));
     }
 
@@ -102,6 +102,7 @@ const SignupInputForm = () => {
   // ! PW => 대문자 & 소문자 & 숫자 8자리 ~ 15자리
   return (
     <Container>
+      {logInSubmit ? <Modal url={"/login"}>등록되었습니다 !</Modal> : null}
       <InputBox>
         {inputValueArr.map((item) =>
           item.id === "password" || item.id === "passwordCheck" ? (
@@ -141,11 +142,6 @@ const SignupInputForm = () => {
                   maxLength={15}
                   onChange={onChangeInputHandler}
                 />
-                {console.log(
-                  item.id,
-                  inputInvalid.userName,
-                  inputInvalid.nickName
-                )}
                 {item.id === "userName" && inputInvalid.userName === true ? (
                   <AlertText>아이디를 입력해주세요.</AlertText>
                 ) : item.id === "nickName" && inputInvalid.nickName === true ? (
@@ -158,8 +154,12 @@ const SignupInputForm = () => {
           )
         )}
         <ButtonDiv>
-          <Button onClick={submitHandler}>회원가입</Button>
-          <Button onClick={cancleBtnHandler}>취소</Button>
+          <Button fontSize={"16px"} onClick={submitHandler}>
+            회원가입
+          </Button>
+          <Button fontSize={"16px"} onClick={cancleBtnHandler}>
+            취소
+          </Button>
         </ButtonDiv>
       </InputBox>
     </Container>
@@ -217,6 +217,7 @@ const ButtonDiv = styled.div`
   width: 300px;
   justify-content: space-between;
   margin: 50px auto;
+  gap: 50px;
 `;
 
 export default SignupInputForm;

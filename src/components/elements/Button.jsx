@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({ color, borderColor, onClick, children }) => {
+const Button = ({ fontSize, width, color, borderColor, onClick, children }) => {
   return (
     <CustomButton
-      style={{ backgroundColor: color, borderColor: borderColor }}
+      style={{
+        fontSize: fontSize,
+        width: width,
+        backgroundColor: color,
+        borderColor: borderColor,
+      }}
       onClick={onClick}
     >
       {children}
@@ -14,10 +19,12 @@ const Button = ({ color, borderColor, onClick, children }) => {
 
 const CustomButton = styled.button`
   font: inherit;
+  width: 170px;
   border: 1px solid var(--color-border);
   border-radius: 15px;
   background: white;
   color: var(--color-font);
+  font-size: 15px;
   padding: 0.5rem 1.5rem;
   cursor: pointer;
 
