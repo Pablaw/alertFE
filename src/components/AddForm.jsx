@@ -79,6 +79,7 @@ const AddForm = () => {
   const onSubmitHandler = () => {
     calendar.endTime = Date.parse(time);
     dispatch(__postcalendars({ ...calendar }));
+    console.log(calendar)
     navigate("/");
   };
 
