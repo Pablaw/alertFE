@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import https from "https";
 
 const initialState = {
   calendars: [
@@ -82,7 +83,12 @@ export const __delcalendars = createAsyncThunk(
   "calendars/delete",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:3001/calendars/${payload}`);
+      await axios.delete(`http://localhost:3001/calendars/${payload}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: payload[1].Authorization,
+        },
+      });
       return thunkAPI.fulfillWithValue();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
