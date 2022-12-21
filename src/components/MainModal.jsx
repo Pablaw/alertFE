@@ -21,7 +21,7 @@ const MainModal = (props) => {
   const cal = calendar?.find(
     (calendars) => parseInt(calendars.calendarId) === modals
   );
-  console.log(cal);
+
   const onClickDeleteCalendar = (id) => {
     console.log(id);
     dispatch(__delcalendars([id, Cookie]));
@@ -37,7 +37,7 @@ const MainModal = (props) => {
       ])
     );
     // setIsEdit(!isEdit);
-    navigate("/")
+    navigate("/");
   };
 
   if (mods) {

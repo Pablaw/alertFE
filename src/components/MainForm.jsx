@@ -22,19 +22,23 @@ const MainForm = () => {
 
   const [modal, setModal] = useState();
   const [mod, setMod] = useState(false);
+
   const [hasCookie, setHasCookie] = useState("");
 
   const openModal = (i) => {
     setModal(i);
     setMod(true);
   };
+  const gotCookie = () => {
+    setHasCookie(true);
+    dispatch(__getcalendars(Cookie));
+  };
 
   useEffect(() => {
-    Cookie.Authorization === undefined
-      ? setHasCookie(false)
-      : setHasCookie(true);
-    if (Cookie.Authorization !== undefined) dispatch(__getcalendars(Cookie));
+    setHasCookie("reload");
+    Cookie.Authorization === undefined ? setHasCookie(false) : gotCookie();
   }, []);
+
   // useEffect(() => {
   //   dispatch(__getcalendars(Cookie));
   // }, [dispatch]);
