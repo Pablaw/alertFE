@@ -2,53 +2,69 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getcalendars } from "../redux/modules/calendarsSlice";
-import MainModal from "./MainModal";
 import { useCookies } from "react-cookie";
 
+import { __getcalendars } from "../redux/modules/calendarsSlice";
+import MainModal from "./MainModal";
+
 const MainForm = () => {
+  let num = 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  // const { isLoading, error, calendars } = useSelector((state) =>
+  //   console.log(state.calendars)
+  // );
   const { isLoading, error, calendars } = useSelector(
     (state) => state.calendars
   );
-  console.log(calendars);
+
   const [Cookie] = useCookies(["Authorization"]);
 
   const [modal, setModal] = useState();
   const [mod, setMod] = useState(false);
+  const [hasCookie, setHasCookie] = useState("");
 
-  const openModal = (id) => {
-    setModal(id);
-    setMod(!mod);
+  const openModal = (i) => {
+    setModal(i);
+    setMod(true);
   };
 
   useEffect(() => {
-    dispatch(__getcalendars(Cookie));
-  }, [dispatch]);
+    Cookie.Authorization === undefined
+      ? setHasCookie(false)
+      : setHasCookie(true);
+    if (Cookie.Authorization !== undefined) dispatch(__getcalendars(Cookie));
+  }, []);
+  // useEffect(() => {
+  //   dispatch(__getcalendars(Cookie));
+  // }, [dispatch]);
 
-  if (isLoading) {
-    return <div>Loading....</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading....</div>;
+  // }
 
-  if (error) {
-    return <div>{error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>{error.message}</div>;
+  // }
   return (
     <React.Fragment>
+      {hasCookie ? null : (
+        <MainPageExample>
+          <ExampleContent onClick={() => navigate("/login")}>
+            일정을 추가하실려면 로그인해주세요
+          </ExampleContent>
+        </MainPageExample>
+      )}
+
       <StMain>
         <StSuvv>
           <div>진행중</div>
           {calendars
-            ? calendars?.map((calendar) => {
+            ? calendars.map((calendar, i) => {
                 return (
-                  <StBox key={calendar.calendarId}>
+                  <StBox key={num++}>
                     <Stdiv>{calendar.content}</Stdiv>
-                    <DetailBtn
-                      type="button"
-                      onClick={() => openModal(calendar.calendarId)}
-                    >
+                    <DetailBtn type="button" onClick={() => openModal(i)}>
                       상세보기
                     </DetailBtn>
                     <MainModal
@@ -89,6 +105,44 @@ export const StMain = styled.form`
   width: 1210px;
   height: 1000px;
   margin: auto;
+  font-family: KoPubWorldBatang;
+  font-size: 16px;
+`;
+
+const MainPageExample = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 165%;
+  background-color: rgba(0, 0, 0, 0.15);
+`;
+const ExampleContent = styled.button`
+  position: fixed;
+  width: 300px !important;
+  height: 100px !important;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: KoPubWorldBatang;
+  font-size: 15px;
+  cursor: pointer;
+  border: solid 1px white;
+  &:hover,
+  &:active {
+    color: white;
+    background: var(--color-header);
+    border-color: var(--color-border);
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const StButton = styled.button`

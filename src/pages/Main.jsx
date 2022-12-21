@@ -6,7 +6,7 @@ import Header from "../components/elements/Header";
 const Main = () => {
   return (
     <HomeWrap>
-      <Header />
+      <Header noLogInButton={true} />
       <MainForm />
     </HomeWrap>
   );

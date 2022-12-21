@@ -5,7 +5,25 @@ const initialState = {
   calendars: [
     {
       calendarId: "Long",
-      content: "String",
+      content: "프로젝트 S.A 작성 및 기획 회의",
+      currentTimeMillis: "Long",
+      endTimeMillis: "Long",
+      startTime: "String",
+      endTime: "String",
+      done: "Boolean",
+    },
+    {
+      calendarId: "Long",
+      content: "서버 배포, api 통신",
+      currentTimeMillis: "Long",
+      endTimeMillis: "Long",
+      startTime: "String",
+      endTime: "String",
+      done: "Boolean",
+    },
+    {
+      calendarId: "Long",
+      content: "미니 프로젝트 발표자료 준비",
       currentTimeMillis: "Long",
       endTimeMillis: "Long",
       startTime: "String",

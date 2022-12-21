@@ -7,7 +7,7 @@ import Header from "../components/elements/Header";
 const Login = () => {
   return (
     <Container>
-      <Header logInPage={true} />
+      <Header noLogInButton={true} />
       <LogInInputForm></LogInInputForm>
     </Container>
   );
