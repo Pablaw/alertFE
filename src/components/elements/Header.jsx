@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 
 import logo from "../../img/Alert.png";
 
-const Header = ({ logInPage }) => {
+const Header = ({ noLogInButton }) => {
   const navigate = useNavigate("");
   const [gotCookie, setGotCookie] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies("Authorization");
@@ -27,7 +27,8 @@ const Header = ({ logInPage }) => {
         <LogoImg src={logo} />
       </Link>
       <ButtonDiv>
-        {logInPage ? null : gotCookie ? (
+        {noLogInButton &&
+        cookies.Authorization === undefined ? null : gotCookie ? (
           <Button onClick={logOutHandler}>로그아웃</Button>
         ) : (
           <Button onClick={() => navigate("/login")}>로그인</Button>
