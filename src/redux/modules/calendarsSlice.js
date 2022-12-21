@@ -24,7 +24,7 @@ export const __getcalendars = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload.Authorization);
     try {
-      const { data } = await axios.get("http://13.209.41.128:8080/calendars", {
+      const { data } = await axios.get("https://13.209.41.128:8080/calendars", {
         headers: {
           "Content-Type": "application/json",
           Authorization: payload.Authorization,
@@ -42,7 +42,7 @@ export const __postcalendars = createAsyncThunk(
   "calendars/post",
   async (payload, thunkAPI) => {
     try {
-      await axios.post("http://13.209.41.128:8080/calendars", payload[0], {
+      await axios.post("https://13.209.41.128:8080/calendars", payload[0], {
         headers: {
           "Content-Type": "application/json",
           Authorization: payload[1].Authorization,
@@ -61,13 +61,15 @@ export const __patchcalendars = createAsyncThunk(
     console.log(payload, thunkAPI);
     try {
       const data = await axios.patch(
-        `http://localhost:3001/calendars/${payload.calId}`,
-        { content: payload.content, endTime: payload.endTime } , {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: payload[1].Authorization,
-        },
-      });
+        `https://localhost:3001/calendars/${payload.calId}`,
+        { content: payload.content, endTime: payload.endTime },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: payload[1].Authorization,
+          },
+        }
+      );
       console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -75,7 +77,6 @@ export const __patchcalendars = createAsyncThunk(
     }
   }
 );
-
 
 export const __delcalendars = createAsyncThunk(
   "calendars/delete",

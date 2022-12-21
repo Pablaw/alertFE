@@ -41,7 +41,7 @@ const SignupInputForm = () => {
     };
 
     axios
-      .post("http://alertservice.shop:8080/auth/signup", signUp)
+      .post("https://alertservice.shop:8080/auth/signup", signUp)
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
 

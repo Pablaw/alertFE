@@ -43,7 +43,7 @@ http://localhost:3009/calendars
       alert("유저정보를 입력해주세요");
     } else {
       axios //! 서버통신
-        .post("http://13.209.41.128:8080/auth/login", inputState, {
+        .post("https://13.209.41.128:8080/auth/login", inputState, {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
