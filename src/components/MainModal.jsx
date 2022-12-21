@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   __delcalendars,
@@ -9,22 +11,33 @@ import Button from "./elements/Button";
 
 const MainModal = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { modals, calendar, mods } = props; //modals = index uint , calendar = [{},{}] , mods = bool: show modal
   const [isEdit, setIsEdit] = useState(true);
-  const [content, setContent] = useState();
-  const [cald, setCald] = useState({});
-  const cal = calendar?.find(
-    (calendars) => parseInt(calendars.id) === modals + 1
-    );
+  const [content, setContent] = useState({});
+  const [Cookie] = useCookies(["Authorization"]);
+  // const [cald, setCald] = useState({});
 
-  const onClickDeleteCalendar = (calId) => {
-    dispatch(__delcalendars(calId));
-    setCald({ ...cald });
+  const cal = calendar?.find(
+    (calendars) => parseInt(calendars.calendarId) === modals
+  );
+  console.log(cal);
+  const onClickDeleteCalendar = (id) => {
+    console.log(id);
+    dispatch(__delcalendars([id, Cookie]));
+    navigate("/");
+    // setCald({ ...cald });
   };
 
-  const onClickEditBtn = (calId, content) => {
-    dispatch(__patchcalendars({calId, content, endTime:0 }));
-    setIsEdit(!isEdit);
+  const onClickEditBtn = () => {
+    dispatch(
+      __patchcalendars([
+        { calendarId: cal.calendarId, content, endTime: cal.endTimeMillis },
+        Cookie,
+      ])
+    );
+    // setIsEdit(!isEdit);
+    navigate("/")
   };
 
   if (mods) {
@@ -39,8 +52,8 @@ const MainModal = (props) => {
                 <div>마감시간</div>
               </StTime>
               <StTimee>
-                <div>22/12/20 10시 30분</div>
-                <div>22/12/20 10시 30분</div>
+                <div>{cal.startTime}</div>
+                <div>{cal.endTime}</div>
               </StTimee>
               {isEdit ? (
                 <ContentDiv>{cal.content}</ContentDiv>
@@ -48,16 +61,21 @@ const MainModal = (props) => {
                 <ContentDiv>
                   <StInput
                     type="text"
-                    id="content"
                     name="cal.content"
-                    defaultValue={content}
+                    defaultValue={cal.content}
                     placeholder={cal.content}
                     onChange={(e) => setContent(e.target.value)}
                   />
                 </ContentDiv>
               )}
               <BtnDiv>
-                <Button onClick={() => onClickDeleteCalendar(cal.id)}>
+                <Button
+                  type="button"
+                  onClick={(e) => {
+                    // e.preventDefault();
+                    onClickDeleteCalendar(cal.calendarId);
+                  }}
+                >
                   삭제하기
                 </Button>
                 <Button
@@ -75,7 +93,7 @@ const MainModal = (props) => {
                         alert("내용을 입력해주세요.");
                       } else {
                         setContent(cal.content);
-                        onClickEditBtn(cal.id, content);
+                        onClickEditBtn(cal.calendarId, content);
                       }
                     }}
                   >
@@ -101,7 +119,7 @@ const Modal = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: grey;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,8 +157,8 @@ const ContentDiv = styled.div`
   width: 500px;
   height: 250px;
   margin-top: 180px;
-  font-size: 1.5em;
-  word-break: break-all;
+  font-size: 1.8em;
+  border: none;
 `;
 
 const StTime = styled.div`
@@ -155,12 +173,11 @@ const StTimee = styled.div`
 `;
 
 const StInput = styled.input`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  text-align: center;
   font-size: 1em;
-  width: 300px;
+  width: 400px;
   height: 50px;
   word-break: break-all;
+  border: transparent;
+  border-bottom: 2px solid black;
 `;

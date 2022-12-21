@@ -15,13 +15,12 @@ const AddForm = () => {
     month: "",
     day: "01",
     hour: "",
-    minute: "",
+    minute: "00",
   });
 
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    // ! console.log(name, value);
     setForm({ ...form, [name]: value });
   };
 
@@ -75,17 +74,21 @@ const AddForm = () => {
     content: "",
     endTime: "",
   });
-  console.log(time);
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setCalendar({ ...calendar, [name]: value });
   };
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (e) => {
+    if (calendar.content === "") {
+      return alert("내용을 입력해주세요.")
+    } else if (form.hour === "") {
+     return alert("시간을 입력해주세요.")
+    } 
     calendar.endTime = Date.parse(time);
     dispatch(__postcalendars([{ ...calendar }, Cookie]));
-    // setForm({ year: "2022", month: "", day: "01", hour: "", minute: "" });
+    setCalendar("");
     navigate("/");
   };
 
