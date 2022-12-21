@@ -41,15 +41,12 @@ const SignupInputForm = () => {
       nickname: inputSubmitValue.nickName,
       password: inputSubmitValue.password,
     };
+    console.log(logInSubmit);
 
-    if (logInSubmit) {
-      axios
-        .post("http://13.209.41.128:8080/auth/signup", signUp)
-        .then((res) => console.log(res.data.msg))
-        .catch((error) => console.log(error));
-    }
+    // !아이디는 4~10자 영문 소문자, 숫자를 이용해주세요.
+    // !비밀번호는 8~15자 영문 대 소문자, 숫자, 특수문자를 이용해주세요.
 
-    const checkReg = //! 대문자, 소문자, 특수문자, 숫자 각 1개 이상 8자리 이상 15이하
+    const checkPwReg = //! 대문자, 소문자, 특수문자, 숫자 각 1개 이상 8자리 이상 15이하
       /^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[#?!@$ %^&*-]).{8,15}$/;
 
     //! 빈 값 유효성 검사
@@ -64,23 +61,28 @@ const SignupInputForm = () => {
     }
     //! 비밀번호 유효성 검사
     else if (
-      !checkReg.test(inputSubmitValue.password) ||
-      !checkReg.test(inputSubmitValue.passwordCheck)
+      !checkPwReg.test(inputSubmitValue.password) ||
+      !checkPwReg.test(inputSubmitValue.passwordCheck)
     ) {
       alert("형식에 맞게 입력해주세요");
     } else if (
-      checkReg.test(inputSubmitValue.password) &&
-      checkReg.test(inputSubmitValue.passwordCheck) &&
+      checkPwReg.test(inputSubmitValue.password) &&
+      checkPwReg.test(inputSubmitValue.passwordCheck) &&
       inputSubmitValue.password === inputSubmitValue.passwordCheck
     ) {
       setPasswordInvalid(false);
       setLogInSubmit(true);
+      axios
+        .post("https://kekeke.gq:8080/auth/signup", signUp)
+        .then((res) => console.log(res.data.msg))
+        .catch((error) => console.log(error));
     } else {
       setPasswordInvalid(true);
     }
     // !  최소 8자리 이상 숫자, 특수문자가 각각 1개 이상
     // ! /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/
   };
+  // http://13.209.41.128:8080/auth/signup"
 
   const cancleBtnHandler = () => {
     navigate("/login");

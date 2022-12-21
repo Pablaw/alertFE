@@ -23,7 +23,7 @@ export const __getcalendars = createAsyncThunk(
 
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get("http://13.209.41.128:8080/calendars", {
+      const { data } = await axios.get("https://kekeke.gq:8080/calendars", {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const __postcalendars = createAsyncThunk(
   "calendars/post",
   async (payload, thunkAPI) => {
     try {
-      await axios.post("http://13.209.41.128:8080/calendars", payload[0], {
+      await axios.post("https://kekeke.gq:8080/calendars", payload[0], {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
@@ -60,9 +60,8 @@ export const __patchcalendars = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.patch(
-
-        `http://13.209.41.128:8080/calendars/${payload[0].calendarId}`,
-        {content:payload[0].content, endTime:payload[0].endTime},
+        `https://kekeke.gq:8080/calendars/${payload[0].calendarId}`,
+        { content: payload[0].content, endTime: payload[0].endTime },
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -82,7 +81,7 @@ export const __delcalendars = createAsyncThunk(
   "calendars/delete",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://13.209.41.128:8080/calendars/${payload[0]}`, {
+      await axios.delete(`https://kekeke.gq:8080/calendars/${payload[0]}`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",

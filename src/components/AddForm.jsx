@@ -24,9 +24,8 @@ const AddForm = () => {
     setForm({ ...form, [name]: value });
   };
 
-  
   const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
- 
+
   const now = new Date();
   let years = [];
   for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
@@ -82,10 +81,8 @@ const AddForm = () => {
 
   const onSubmitHandler = (e) => {
     if (calendar.content === "") {
-      return alert("내용을 입력해주세요.")
-    } else if (form.hour === "") {
-     return alert("시간을 입력해주세요.")
-    } 
+      return alert("내용을 입력해주세요.");
+    }
     calendar.endTime = Date.parse(time);
     dispatch(__postcalendars([{ ...calendar }, Cookie]));
     setCalendar("");

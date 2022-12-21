@@ -43,7 +43,7 @@ http://localhost:3009/calendars
       alert("유저정보를 입력해주세요");
     } else {
       axios //! 서버통신
-        .post("http://13.209.41.128:8080/auth/login", inputState, {
+        .post("https://kekeke.gq:8080/auth/login", inputState, {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
@@ -97,11 +97,14 @@ http://localhost:3009/calendars
           <Button
             color="var(--color-border)"
             borderColor="var(--color-header)"
+            fontSize={"16px"}
             onClick={SubmitHandler}
           >
             로그인
           </Button>
-          <Button onClick={signUpBtnHandler}>회원가입</Button>
+          <Button fontSize={"16px"} onClick={signUpBtnHandler}>
+            회원가입
+          </Button>
         </ButtonDiv>
       </InputBox>
     </Container>
@@ -147,7 +150,7 @@ const ButtonDiv = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 230px;
-  justify-content: space-between;
+  align-items: center;
   margin: 50px auto;
 `;
 
