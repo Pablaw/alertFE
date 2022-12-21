@@ -7,12 +7,9 @@ import MainModal from "./MainModal";
 import { useCookies } from "react-cookie";
 
 const MainForm = () => {
-  let num = 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { isLoading, error, calendars } = useSelector((state) =>
-  //   console.log(state.calendars)
-  // );
+
   const { isLoading, error, calendars } = useSelector(
     (state) => state.calendars
   );
@@ -22,36 +19,36 @@ const MainForm = () => {
   const [modal, setModal] = useState();
   const [mod, setMod] = useState(false);
 
-  const openModal = (i) => {
-    setModal(i);
-    setMod(true);
+  const openModal = (id) => {
+    setModal(id);
+    setMod(!mod);
   };
 
   useEffect(() => {
     dispatch(__getcalendars(Cookie));
-  }, []);
-  // useEffect(() => {
-  //   dispatch(__getcalendars(Cookie));
-  // }, [dispatch]);
+  }, [dispatch]);
 
-  // if (isLoading) {
-  //   return <div>Loading....</div>;
-  // }
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
 
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   return (
     <React.Fragment>
       <StMain>
         <StSuvv>
           <div>진행중</div>
           {calendars
-            ? calendars.map((calendar, i) => {
+            ? calendars?.map((calendar) => {
                 return (
-                  <StBox key={num++}>
+                  <StBox key={calendar.calendarId}>
                     <Stdiv>{calendar.content}</Stdiv>
-                    <DetailBtn type="button" onClick={() => openModal(i)}>
+                    <DetailBtn
+                      type="button"
+                      onClick={() => openModal(calendar.calendarId)}
+                    >
                       상세보기
                     </DetailBtn>
                     <MainModal
