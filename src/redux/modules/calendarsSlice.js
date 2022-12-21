@@ -62,7 +62,7 @@ export const __patchcalendars = createAsyncThunk(
     console.log(payload, thunkAPI);
     try {
       const data = await axios.patch(
-        `http://localhost:3001/calendars/${payload.calId}`,
+        `http://13.209.41.128:8080/calendars/${payload.calId}`,
         { content: payload.content, endTime: payload.endTime },
         {
           headers: {
@@ -83,12 +83,7 @@ export const __delcalendars = createAsyncThunk(
   "calendars/delete",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:3001/calendars/${payload}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: payload[1].Authorization,
-        },
-      });
+      await axios.delete(`http://13.209.41.128:8080/calendars/${payload}`);
       return thunkAPI.fulfillWithValue();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
