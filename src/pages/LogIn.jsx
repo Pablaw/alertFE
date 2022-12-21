@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import LogInInputForm from "../components/LogInInputForm";
 
-// import LoginInputForm
+import Header from "../components/elements/Header";
 
 const Login = () => {
   return (
     <Container>
+      <Header logInPage={true} />
       <LogInInputForm></LogInInputForm>
     </Container>
   );
