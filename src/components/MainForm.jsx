@@ -4,13 +4,20 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getcalendars } from "../redux/modules/calendarsSlice";
 import MainModal from "./MainModal";
+import { useCookies } from "react-cookie";
 
 const MainForm = () => {
+  let num = 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // const { isLoading, error, calendars } = useSelector((state) =>
+  //   console.log(state.calendars)
+  // );
   const { isLoading, error, calendars } = useSelector(
     (state) => state.calendars
   );
+  console.log(calendars);
+  const [Cookie] = useCookies(["Authorization"]);
 
   const [modal, setModal] = useState();
   const [mod, setMod] = useState(false);
@@ -21,34 +28,41 @@ const MainForm = () => {
   };
 
   useEffect(() => {
-    dispatch(__getcalendars());
-  }, [dispatch]);
+    dispatch(__getcalendars(Cookie));
+  }, []);
+  // useEffect(() => {
+  //   dispatch(__getcalendars(Cookie));
+  // }, [dispatch]);
 
-  if (isLoading) {
-    return <div>Loading....</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading....</div>;
+  // }
 
-  if (error) {
-    return <div>{error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>{error.message}</div>;
+  // }
   return (
     <React.Fragment>
       <StMain>
         <StSuvv>
           <div>진행중</div>
-          {calendars?.map((calendar, i) => {
-            return (
-              <StBox key={calendar.id}>
-                <Stdiv>{calendar.content}</Stdiv>
-                <DetailBtn type="button" onClick={() => openModal(i)}>상세보기</DetailBtn>
-                <MainModal
-                  calendar={calendars}
-                  modals={modal}
-                  mods={mod}
-                ></MainModal>
-              </StBox>
-            );
-          })}
+          {calendars
+            ? calendars.map((calendar, i) => {
+                return (
+                  <StBox key={num++}>
+                    <Stdiv>{calendar.content}</Stdiv>
+                    <DetailBtn type="button" onClick={() => openModal(i)}>
+                      상세보기
+                    </DetailBtn>
+                    <MainModal
+                      calendar={calendars}
+                      modals={modal}
+                      mods={mod}
+                    ></MainModal>
+                  </StBox>
+                );
+              })
+            : console.log("성공?")}
         </StSuvv>
         <div>
           <StButton
@@ -63,7 +77,7 @@ const MainForm = () => {
           <div>지난일정</div>
           <StBox>
             <Stdiv>test</Stdiv>
-            </StBox>
+          </StBox>
         </StSuv>
       </StMain>
     </React.Fragment>
@@ -153,4 +167,4 @@ const Stdiv = styled.div`
   padding: 0px 0px 0px 120px;
   display: flex;
   justify-content: center;
-`
+`;

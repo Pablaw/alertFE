@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __postcalendars } from "../redux/modules/calendarsSlice";
 import Button from "./elements/Button";
+import { useCookies } from "react-cookie";
 
 const AddForm = () => {
+  const [Cookie] = useCookies(["Authorization"]);
+
   const [form, setForm] = useState({
     year: "2022",
     month: "",
@@ -18,11 +21,13 @@ const AddForm = () => {
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
+    // ! console.log(name, value);
     setForm({ ...form, [name]: value });
   };
 
+  
   const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
-
+ 
   const now = new Date();
   let years = [];
   for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
@@ -70,16 +75,17 @@ const AddForm = () => {
     content: "",
     endTime: "",
   });
-
+  console.log(time);
   const changeHandler = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setCalendar({ ...calendar, [name]: value });
   };
 
   const onSubmitHandler = () => {
     calendar.endTime = Date.parse(time);
-    dispatch(__postcalendars({ ...calendar }));
-    console.log(calendar)
+    dispatch(__postcalendars([{ ...calendar }, Cookie]));
+    // setForm({ year: "2022", month: "", day: "01", hour: "", minute: "" });
     navigate("/");
   };
 

@@ -1,8 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({ onClick, children }) => {
-  return <CustomButton onClick={onClick}>{children}</CustomButton>;
+const Button = ({ color, borderColor, onClick, children }) => {
+  return (
+    <CustomButton
+      style={{ backgroundColor: color, borderColor: borderColor }}
+      onClick={onClick}
+    >
+      {children}
+    </CustomButton>
+  );
 };
 
 const CustomButton = styled.button`
