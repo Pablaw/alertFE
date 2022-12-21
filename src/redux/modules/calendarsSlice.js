@@ -60,6 +60,7 @@ export const __patchcalendars = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.patch(
+
         `http://13.209.41.128:8080/calendars/${payload[0].calendarId}`,
         {content:payload[0].content, endTime:payload[0].endTime},
         {
@@ -76,7 +77,7 @@ export const __patchcalendars = createAsyncThunk(
     }
   }
 );
-//alertservice:8080
+
 export const __delcalendars = createAsyncThunk(
   "calendars/delete",
   async (payload, thunkAPI) => {
