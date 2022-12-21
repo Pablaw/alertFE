@@ -25,13 +25,9 @@ const AddForm = () => {
     setForm({ ...form, [name]: value });
   };
 
-  //! 원문님 로직
-  // const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
-  const time =
-    new Date(form.year, form.month, form.day).getTime() +
-    form.hour * 60 * 60 * 1000 +
-    form.minute * 60 * 1000;
-
+  
+  const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
+ 
   const now = new Date();
   let years = [];
   for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
@@ -88,8 +84,8 @@ const AddForm = () => {
 
   const onSubmitHandler = () => {
     calendar.endTime = Date.parse(time);
-    dispatch(__postcalendars([{ ...calendar, endTime: time }, Cookie]));
-    setForm({ year: "2022", month: "", day: "01", hour: "", minute: "" });
+    dispatch(__postcalendars([{ ...calendar }, Cookie]));
+    // setForm({ year: "2022", month: "", day: "01", hour: "", minute: "" });
     navigate("/");
   };
 
