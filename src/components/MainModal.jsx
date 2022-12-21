@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __delcalendars } from "../redux/modules/calendarsSlice";
+import {
+  __delcalendars,
+  __patchcalendars,
+} from "../redux/modules/calendarsSlice";
 import Button from "./elements/Button";
 
 const MainModal = (props) => {
   const dispatch = useDispatch();
-  const { modals, calendar, mods } = props;
+  const { modals, calendar, mods } = props; //modals = index uint , calendar = [{},{}] , mods = bool: show modal
   const [isEdit, setIsEdit] = useState(true);
   const [content, setContent] = useState();
   const [cald, setCald] = useState({});
   const cal = calendar?.find(
     (calendars) => parseInt(calendars.id) === modals + 1
-  );
+    );
 
   const onClickDeleteCalendar = (calId) => {
     dispatch(__delcalendars(calId));
     setCald({ ...cald });
+  };
+
+  const onClickEditBtn = (calId, content) => {
+    dispatch(__patchcalendars({calId, content, endTime:0 }));
+    setIsEdit(!isEdit);
   };
 
   if (mods) {
@@ -37,12 +45,16 @@ const MainModal = (props) => {
               {isEdit ? (
                 <ContentDiv>{cal.content}</ContentDiv>
               ) : (
-                <input
-                  type="text"
-                  id="content"
-                  value={content}
-                  onchange={(e) => setContent(e.target.value)}
-                />
+                <ContentDiv>
+                  <StInput
+                    type="text"
+                    id="content"
+                    name="cal.content"
+                    defaultValue={content}
+                    placeholder={cal.content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </ContentDiv>
               )}
               <BtnDiv>
                 <Button onClick={() => onClickDeleteCalendar(cal.id)}>
@@ -51,11 +63,25 @@ const MainModal = (props) => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
-                    setIsEdit(false);
+                    setIsEdit((prev) => !prev);
                   }}
                 >
                   {isEdit ? "수정하기" : "수정취소"}
                 </Button>
+                {!isEdit && (
+                  <Button
+                    onClick={() => {
+                      if (cal.content.trim() === "") {
+                        alert("내용을 입력해주세요.");
+                      } else {
+                        setContent(cal.content);
+                        onClickEditBtn(cal.id, content);
+                      }
+                    }}
+                  >
+                    수정완료
+                  </Button>
+                )}
               </BtnDiv>
             </div>
           </ModalBody>
@@ -89,6 +115,7 @@ const ModalBody = styled.div`
   text-align: center;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
+  border: 3px solid var(--color-border);
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 `;
 
@@ -113,6 +140,7 @@ const ContentDiv = styled.div`
   height: 250px;
   margin-top: 180px;
   font-size: 1.5em;
+  word-break: break-all;
 `;
 
 const StTime = styled.div`
@@ -124,4 +152,15 @@ const StTime = styled.div`
 const StTimee = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const StInput = styled.input`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1em;
+  width: 300px;
+  height: 50px;
+  word-break: break-all;
 `;

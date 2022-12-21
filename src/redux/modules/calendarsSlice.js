@@ -17,7 +17,7 @@ const initialState = {
   error: null,
 };
 //  "http://localhost:3001/calendars"
-//  "http://3.38.135.135/calendars"
+//  "http://13.209.41.128:8080/calendars"
 export const __getcalendars = createAsyncThunk(
   "calendars/calendarList/get",
 
@@ -55,6 +55,28 @@ export const __postcalendars = createAsyncThunk(
   }
 );
 
+export const __patchcalendars = createAsyncThunk(
+  "calendars/patch",
+  async (payload, thunkAPI) => {
+    console.log(payload, thunkAPI);
+    try {
+      const data = await axios.patch(
+        `http://localhost:3001/calendars/${payload.calId}`,
+        { content: payload.content, endTime: payload.endTime } , {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: payload[1].Authorization,
+        },
+      });
+      console.log(data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+
 export const __delcalendars = createAsyncThunk(
   "calendars/delete",
   async (payload, thunkAPI) => {
@@ -86,9 +108,13 @@ export const calendarsSlice = createSlice({
     builder.addCase(__postcalendars.fulfilled, (state, action) => {
       state.calendars = action.payload;
     });
-    // builder.addCase(__delcalendars.fulfilled, (state, action) => {
-    //   state.calendars = state.calendars.filter((a) => a.id !== action.payload)
-    // })
+    builder.addCase(__delcalendars.fulfilled, (state, action) => {
+      state.calendars = state.calendars.filter((a) => a.id !== action.payload);
+    });
+    builder.addCase(__patchcalendars.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.calendars = action.payload;
+    });
   },
 });
 
