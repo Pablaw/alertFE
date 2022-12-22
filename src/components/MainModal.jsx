@@ -30,8 +30,7 @@ const MainModal = (props) => {
 
   const onClickEditBtn = () => {
     if (content === "") {
-      return alert("내용을 입력해주세요."),
-      setIsEdit(!isEdit);
+      return alert("내용을 입력해주세요."), setIsEdit(!isEdit);
     } else {
       dispatch(
         __patchcalendars([
@@ -40,7 +39,7 @@ const MainModal = (props) => {
         ])
       );
       // setIsEdit(!isEdit);
-      navigate("/")  
+      navigate("/");
     }
   };
 

@@ -6,6 +6,9 @@ import { useCookies } from "react-cookie";
 
 import { __getcalendars } from "../redux/modules/calendarsSlice";
 import MainModal from "./MainModal";
+import alertAlarm from "../img/AlertAlarm.png";
+import alertAlarmJS from "../img/AlertAlarm-byJS.gif";
+import alertAlarmPG from "../img/BusyPigeon.gif";
 
 const MainForm = () => {
   const navigate = useNavigate();
@@ -53,53 +56,86 @@ const MainForm = () => {
 
       <StMain>
         <StSuv>
-          <div>진행중인 일정</div>
+          <CardContainer>
+            <SpaceDiv />
+            진행중인 일정
+          </CardContainer>
           {calendars?.map((calendar) => {
             if (calendar.done) {
               if (
                 calendar.endTimeMillis - calendar.currentTimeMillis <=
                 3600000
               ) {
-                return (
-                  <StBBox key={calendar.calendarId}>
-                    <Stdiv>
-                      {calendar.content} - !! 일정까지 남은시간 1시간 미만
-                    </Stdiv>
-                    <DetailBBBtn
-                      type="button"
-                      onClick={() => openModal(calendar.calendarId)}
-                    >
-                      상세보기
-                    </DetailBBBtn>
-                    <MainModal
-                      calendar={calendars}
-                      modals={modal}
-                      mods={mod}
-                    ></MainModal>
-                  </StBBox>
-                );
+                if (
+                  calendar.endTimeMillis - calendar.currentTimeMillis <=
+                  600000
+                ) {
+                  return (
+                    <CardContainer>
+                      <AlertAlarm src={alertAlarmPG} />
+                      <StBBox key={calendar.calendarId}>
+                        <Stdiv>{calendar.content}</Stdiv>
+                        <DetailBBBtn
+                          type="button"
+                          onClick={() => openModal(calendar.calendarId)}
+                        >
+                          상세보기
+                        </DetailBBBtn>
+                        <MainModal
+                          calendar={calendars}
+                          modals={modal}
+                          mods={mod}
+                        ></MainModal>
+                      </StBBox>
+                    </CardContainer>
+                  );
+                } else {
+                  return (
+                    <CardContainer>
+                      <AlertAlarm src={alertAlarmJS} />
+                      <StBBox key={calendar.calendarId}>
+                        <Stdiv>{calendar.content}</Stdiv>
+                        <DetailBBBtn
+                          type="button"
+                          onClick={() => openModal(calendar.calendarId)}
+                        >
+                          상세보기
+                        </DetailBBBtn>
+                        <MainModal
+                          calendar={calendars}
+                          modals={modal}
+                          mods={mod}
+                        ></MainModal>
+                      </StBBox>
+                    </CardContainer>
+                  );
+                }
               } else {
                 return (
-                  <StBox key={calendar.calendarId}>
-                    <Stdiv>{calendar.content}</Stdiv>
-                    <DetailBtn
-                      type="button"
-                      onClick={() => openModal(calendar.calendarId)}
-                    >
-                      상세보기
-                    </DetailBtn>
-                    <MainModal
-                      calendar={calendars}
-                      modals={modal}
-                      mods={mod}
-                    ></MainModal>
-                  </StBox>
+                  <CardContainer>
+                    <SpaceDiv />
+                    <StBox key={calendar.calendarId}>
+                      <Stdiv>{calendar.content}</Stdiv>
+                      <DetailBtn
+                        type="button"
+                        onClick={() => openModal(calendar.calendarId)}
+                      >
+                        상세보기
+                      </DetailBtn>
+                      <MainModal
+                        calendar={calendars}
+                        modals={modal}
+                        mods={mod}
+                      ></MainModal>
+                    </StBox>
+                  </CardContainer>
                 );
               }
             }
           })}
         </StSuv>
-        <div>
+        <CardContainer>
+          <SpaceDiv />
           <StButton
             onClick={() => {
               navigate("/Add");
@@ -107,26 +143,32 @@ const MainForm = () => {
           >
             --- 일정 추가하기 ---
           </StButton>
-        </div>
+        </CardContainer>
         <StSuvv>
-          <div>지난 일정</div>
+          <CardContainer>
+            <SpaceDiv />
+            지난 일정
+          </CardContainer>
           {calendars?.map((calendar) => {
             if (!calendar.done) {
               return (
-                <StBoxx key={calendar.calendarId}>
-                  <Stdiv>{calendar.content}</Stdiv>
-                  <DetailBBtn
-                    type="button"
-                    onClick={() => openModal(calendar.calendarId)}
-                  >
-                    상세보기
-                  </DetailBBtn>
-                  <MainModal
-                    calendar={calendars}
-                    modals={modal}
-                    mods={mod}
-                  ></MainModal>
-                </StBoxx>
+                <CardContainer>
+                  <SpaceDiv />
+                  <StBoxx key={calendar.calendarId}>
+                    <Stdiv>{calendar.content}</Stdiv>
+                    <DetailBBtn
+                      type="button"
+                      onClick={() => openModal(calendar.calendarId)}
+                    >
+                      상세보기
+                    </DetailBBtn>
+                    <MainModal
+                      calendar={calendars}
+                      modals={modal}
+                      mods={mod}
+                    ></MainModal>
+                  </StBoxx>
+                </CardContainer>
               );
             }
           })}
@@ -234,10 +276,10 @@ const StBoxx = styled.div`
   padding-right: 30px;
   width: 1100px;
   height: 50px;
-  border: 2px solid grey;
+  border: 2px solid gray;
   border-radius: 10px;
   margin-top: 10px;
-  box-shadow: 5px 5px 2px 1px grey;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
 `;
 
 const StBox = styled.div`
@@ -248,12 +290,28 @@ const StBox = styled.div`
   padding-right: 30px;
   width: 1100px;
   height: 50px;
-  border: 2px solid #efb730;
+  border: 2px solid var(--color-border);
   border-radius: 10px;
   margin-top: 10px;
-  box-shadow: 5px 5px 2px 1px #fedd89;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
 `;
 
+const CardContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const AlertAlarm = styled.img`
+  object-fit: cover;
+
+  height: 50px;
+  margin-top: 10px;
+`;
+const SpaceDiv = styled.div`
+  width: 39px;
+  height: 40px;
+  margin: 10px 14px 0 0;
+`;
 const StBBox = styled.div`
   display: flex;
   align-items: center;
@@ -262,27 +320,27 @@ const StBBox = styled.div`
   padding-right: 30px;
   width: 1100px;
   height: 50px;
-  border: 5px solid black;
+  border: 2px solid #fc5230;
   border-radius: 10px;
   margin-top: 10px;
-  box-shadow: 5px 5px 2px 1px black;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
 `;
 
 const DetailBtn = styled.button`
   font: inherit;
+  width: 120px;
+  height: 41px;
   border: 1px solid var(--color-border);
   border-radius: 15px;
   background: white;
   color: var(--color-font);
   padding: 0.5rem 1.5rem;
-  box-shadow: 3px 3px 2px 1px #fedd89;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
   cursor: pointer;
 
   &:hover,
   &:active {
-    color: white;
-    background: var(--color-border);
-    border-color: var(--color-border);
+    font-size: 17px;
   }
   &:focus {
     outline: none;
@@ -291,19 +349,19 @@ const DetailBtn = styled.button`
 
 const DetailBBtn = styled.button`
   font: inherit;
+  width: 120px;
+  height: 41px;
   border: 1px solid grey;
   border-radius: 15px;
   background: white;
   color: var(--color-font);
   padding: 0.5rem 1.5rem;
-  box-shadow: 3px 3px 2px 1px grey;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
   cursor: pointer;
 
   &:hover,
   &:active {
-    color: white;
-    background: grey;
-    border-color: grey;
+    font-size: 17px;
   }
   &:focus {
     outline: none;
@@ -312,19 +370,19 @@ const DetailBBtn = styled.button`
 
 const DetailBBBtn = styled.button`
   font: inherit;
-  border: 1px solid grey;
+  width: 120px;
+  height: 41px;
+  border: 1px solid #fc5230;
   border-radius: 15px;
   background: white;
   color: var(--color-font);
   padding: 0.5rem 1.5rem;
-  box-shadow: 3px 3px 2px 1px black;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
   cursor: pointer;
 
   &:hover,
   &:active {
-    color: white;
-    background: black;
-    border-color: black;
+    font-size: 17px;
   }
   &:focus {
     outline: none;
