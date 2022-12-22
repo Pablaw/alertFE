@@ -20,12 +20,10 @@ const Header = ({ noLogInButton }) => {
     setGotCookie(false);
     navigate("/login");
   };
-
   return (
     <Container>
+      {/* Link 리다이렉트는 리렌더링이 안일어남, a태그와 Link 차이 검색 */}
       <a href="/">
-        {" "}
-        //! Link 리다이렉트는 리렌더링이 안일어남, a태그와 Link 차이 검색
         <LogoImg src={logo} />
       </a>
       <ButtonDiv>
