@@ -12,8 +12,7 @@ const LogInInputForm = () => {
   const [inputState, setInputState] = useState({ username: "", password: "" });
   // !토큰 선언
   const [cookies, setCookie, removeCookie] = useCookies("");
-  //   const [cookieCheck, setCookieCheck] = useState(false); 나중에 모달 상태값으로 사용
-  console.log(cookies == "");
+
   //! 쿠키 값 확인 후 페이지 이동
   //   useEffect(
   //     cookies !== ""
@@ -27,7 +26,7 @@ const LogInInputForm = () => {
   const onChangeInputHandler = (e) => {
     const logInInputId = e.target.id;
     const logInInputValue = e.target.value;
-    console.log(logInInputId, logInInputValue);
+
     setInputState({ ...inputState, [logInInputId]: logInInputValue });
   };
   /* api 서버 통신
@@ -43,7 +42,7 @@ http://localhost:3009/calendars
       alert("유저정보를 입력해주세요");
     } else {
       axios //! 서버통신
-        .post("http://13.209.41.128:8080/auth/login", inputState, {
+        .post("https://kekeke.gq:8080/auth/login", inputState, {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
@@ -97,11 +96,14 @@ http://localhost:3009/calendars
           <Button
             color="var(--color-border)"
             borderColor="var(--color-header)"
+            fontSize={"18px"}
             onClick={SubmitHandler}
           >
             로그인
           </Button>
-          <Button onClick={signUpBtnHandler}>회원가입</Button>
+          <Button fontSize={"18px"} onClick={signUpBtnHandler}>
+            회원가입
+          </Button>
         </ButtonDiv>
       </InputBox>
     </Container>
@@ -147,7 +149,7 @@ const ButtonDiv = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 230px;
-  justify-content: space-between;
+  align-items: center;
   margin: 50px auto;
 `;
 

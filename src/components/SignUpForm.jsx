@@ -6,6 +6,7 @@ import axios from "axios";
 
 import theme from "../styles/theme";
 import Button from "./elements/Button";
+import Modal from "./elements/Modal";
 
 const SignupInputForm = () => {
   const [inputSubmitValue, setInputSubmitValue] = useState({
@@ -21,6 +22,7 @@ const SignupInputForm = () => {
     passwordCheck: false,
   });
   const [passwordInvalid, setPasswordInvalid] = useState(false);
+  const [logInSubmit, setLogInSubmit] = useState(false);
 
   const navigate = useNavigate();
   let num = 0;
@@ -39,12 +41,16 @@ const SignupInputForm = () => {
       nickname: inputSubmitValue.nickName,
       password: inputSubmitValue.password,
     };
+    console.log(logInSubmit);
 
-    axios
-      .post("http://13.209.41.128:8080/auth/signup", signUp)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+    // !아이디는 4~10자 영문 소문자, 숫자를 이용해주세요.
+    // !비밀번호는 8~15자 영문 대 소문자, 숫자, 특수문자를 이용해주세요.
 
+    const checkPwReg = //! 대문자, 소문자, 특수문자, 숫자 각 1개 이상 8자리 이상 15이하
+
+      /^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[#?!@$ %^&*-]).{8,15}$/;
+
+    //! 빈 값 유효성 검사
     if (inputSubmitValue.userName === "") {
       setInputInvalid({ ...inputInvalid, userName: true });
     } else if (inputSubmitValue.nickName === "") {
@@ -54,14 +60,30 @@ const SignupInputForm = () => {
     } else if (inputSubmitValue.passwordCheck === "") {
       setInputInvalid({ ...inputInvalid, passwordCheck: true });
     }
-    if (inputSubmitValue.password !== inputSubmitValue.passwordCheck) {
-      setPasswordInvalid(true);
-    } else {
+    //! 비밀번호 유효성 검사
+    else if (
+      !checkPwReg.test(inputSubmitValue.password) ||
+      !checkPwReg.test(inputSubmitValue.passwordCheck)
+    ) {
+      alert("형식에 맞게 입력해주세요");
+    } else if (
+      checkPwReg.test(inputSubmitValue.password) &&
+      checkPwReg.test(inputSubmitValue.passwordCheck) &&
+      inputSubmitValue.password === inputSubmitValue.passwordCheck
+    ) {
       setPasswordInvalid(false);
+      setLogInSubmit(true);
+      axios
+        .post("https://kekeke.gq:8080/auth/signup", signUp)
+        .then((res) => console.log(res.data.msg))
+        .catch((error) => console.log(error));
+    } else {
+      setPasswordInvalid(true);
     }
-
-    console.log(inputSubmitValue);
+    // !  최소 8자리 이상 숫자, 특수문자가 각각 1개 이상
+    // ! /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/
   };
+  // http://13.209.41.128:8080/auth/signup"
 
   const cancleBtnHandler = () => {
     navigate("/login");
@@ -83,6 +105,7 @@ const SignupInputForm = () => {
   // ! PW => 대문자 & 소문자 & 숫자 8자리 ~ 15자리
   return (
     <Container>
+      {logInSubmit ? <Modal url={"/login"}>등록되었습니다 !</Modal> : null}
       <InputBox>
         {inputValueArr.map((item) =>
           item.id === "password" || item.id === "passwordCheck" ? (
@@ -93,10 +116,11 @@ const SignupInputForm = () => {
                   type="password"
                   placeholder="8자리 이상(특수문자, 대•소문자, 숫자 포함 )"
                   id={item.id}
-                  minLength={5}
+                  minLength={4}
                   maxLength={15}
                   // value={inputSubmitValue}
                   onChange={onChangeInputHandler}
+                  required
                 />
                 {item.id === "password" && inputInvalid.password === true ? (
                   <AlertText>비밀번호를 입력해주세요.</AlertText>
@@ -121,11 +145,6 @@ const SignupInputForm = () => {
                   maxLength={15}
                   onChange={onChangeInputHandler}
                 />
-                {console.log(
-                  item.id,
-                  inputInvalid.userName,
-                  inputInvalid.nickName
-                )}
                 {item.id === "userName" && inputInvalid.userName === true ? (
                   <AlertText>아이디를 입력해주세요.</AlertText>
                 ) : item.id === "nickName" && inputInvalid.nickName === true ? (
@@ -138,8 +157,12 @@ const SignupInputForm = () => {
           )
         )}
         <ButtonDiv>
-          <Button onClick={submitHandler}>회원가입</Button>
-          <Button onClick={cancleBtnHandler}>취소</Button>
+          <Button fontSize={"16px"} onClick={submitHandler}>
+            회원가입
+          </Button>
+          <Button fontSize={"16px"} onClick={cancleBtnHandler}>
+            취소
+          </Button>
         </ButtonDiv>
       </InputBox>
     </Container>
@@ -197,6 +220,7 @@ const ButtonDiv = styled.div`
   width: 300px;
   justify-content: space-between;
   margin: 50px auto;
+  gap: 50px;
 `;
 
 export default SignupInputForm;
