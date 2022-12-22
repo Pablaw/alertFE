@@ -8,7 +8,6 @@ import { __getcalendars } from "../redux/modules/calendarsSlice";
 import MainModal from "./MainModal";
 
 const MainForm = () => {
-  let num = 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const { isLoading, error, calendars } = useSelector((state) =>
@@ -39,7 +38,7 @@ const MainForm = () => {
       dispatch(__getcalendars(Cookie));
       Cookie.Authorization === undefined ? setHasCookie(false) : gotCookie();
     }, 10);
-  }, [dispatch, Cookie]);
+  }, [dispatch]);
 
   if (isLoading) {
   return <div>Loading....</div>;
@@ -89,7 +88,7 @@ const MainForm = () => {
                 return (
                   <StBox key={calendar.calendarId}>
                     <Stdiv>{calendar.content}</Stdiv>
-                    <DetailBtn type="button" onClick={() => openModal(i)}>
+                    <DetailBtn type="button" onClick={() => openModal(calendar.calendarId)}>
                       상세보기
                     </DetailBtn>
                     <MainModal
