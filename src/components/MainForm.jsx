@@ -35,21 +35,19 @@ const MainForm = () => {
   };
 
   useEffect(() => {
-    setHasCookie("reload");
-    Cookie.Authorization === undefined ? setHasCookie(false) : gotCookie();
-  }, []);
+    setTimeout(() => {
+      dispatch(__getcalendars(Cookie));
+      Cookie.Authorization === undefined ? setHasCookie(false) : gotCookie();
+    }, 10);
+  }, [dispatch, Cookie]);
 
-  // useEffect(() => {
-  //   dispatch(__getcalendars(Cookie));
-  // }, [dispatch]);
+  if (isLoading) {
+  return <div>Loading....</div>;
+  }
 
-  // if (isLoading) {
-  //   return <div>Loading....</div>;
-  // }
-
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   return (
     <React.Fragment>
       {hasCookie ? null : (
@@ -61,12 +59,35 @@ const MainForm = () => {
       )}
 
       <StMain>
-        <StSuvv>
-          <div>진행중</div>
-          {calendars
-            ? calendars.map((calendar, i) => {
+        <StSuv>
+          <div>진행중인 일정</div>
+          {calendars?.map((calendar) => {
+            if (calendar.done) {
+              if (
+                calendar.endTimeMillis - calendar.currentTimeMillis <=
+                3600000
+              ) {
                 return (
-                  <StBox key={num++}>
+                  <StBBox key={calendar.calendarId}>
+                    <Stdiv>
+                      {calendar.content} - !! 일정까지 남은시간 1시간 미만
+                    </Stdiv>
+                    <DetailBBBtn
+                      type="button"
+                      onClick={() => openModal(calendar.calendarId)}
+                    >
+                      상세보기
+                    </DetailBBBtn>
+                    <MainModal
+                      calendar={calendars}
+                      modals={modal}
+                      mods={mod}
+                    ></MainModal>
+                  </StBBox>
+                );
+              } else {
+                return (
+                  <StBox key={calendar.calendarId}>
                     <Stdiv>{calendar.content}</Stdiv>
                     <DetailBtn type="button" onClick={() => openModal(i)}>
                       상세보기
@@ -78,24 +99,42 @@ const MainForm = () => {
                     ></MainModal>
                   </StBox>
                 );
-              })
-            : console.log("성공?")}
-        </StSuvv>
+              }
+            }
+          })}
+        </StSuv>
         <div>
           <StButton
             onClick={() => {
               navigate("/Add");
             }}
           >
-            일정 추가하기
+            --- 일정 추가하기 ---
           </StButton>
         </div>
-        <StSuv>
-          <div>지난일정</div>
-          <StBox>
-            <Stdiv>test</Stdiv>
-          </StBox>
-        </StSuv>
+        <StSuvv>
+          <div>지난 일정</div>
+          {calendars?.map((calendar) => {
+            if (!calendar.done) {
+              return (
+                <StBoxx key={calendar.calendarId}>
+                  <Stdiv>{calendar.content}</Stdiv>
+                  <DetailBBtn
+                    type="button"
+                    onClick={() => openModal(calendar.calendarId)}
+                  >
+                    상세보기
+                  </DetailBBtn>
+                  <MainModal
+                    calendar={calendars}
+                    modals={modal}
+                    mods={mod}
+                  ></MainModal>
+                </StBoxx>
+              );
+            }
+          })}
+        </StSuvv>
       </StMain>
     </React.Fragment>
   );
@@ -160,6 +199,16 @@ const StButton = styled.button`
   background-color: white;
   border-color: black;
   box-shadow: 5px 5px 2px 1px #aaaaaa;
+
+  &:hover,
+  &:active {
+    color: white;
+    background: #000000;
+    border-color: #000000;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const StSuv = styled.div`
@@ -168,7 +217,6 @@ const StSuv = styled.div`
   flex-direction: column;
   width: 1150px;
   height: 500px;
-  border-top: 2px solid #efb730;
   margin-top: 10px;
 `;
 
@@ -180,6 +228,20 @@ const StSuvv = styled.div`
   height: 500px;
   border-bottom: 2px solid #efb730;
   margin-top: 10px;
+`;
+
+const StBoxx = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 30px;
+  width: 1100px;
+  height: 50px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 5px 5px 2px 1px grey;
 `;
 
 const StBox = styled.div`
@@ -194,6 +256,20 @@ const StBox = styled.div`
   border-radius: 10px;
   margin-top: 10px;
   box-shadow: 5px 5px 2px 1px #fedd89;
+`;
+
+const StBBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 30px;
+  width: 1100px;
+  height: 50px;
+  border: 5px solid black;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 5px 5px 2px 1px black;
 `;
 
 const DetailBtn = styled.button`
@@ -211,6 +287,48 @@ const DetailBtn = styled.button`
     color: white;
     background: var(--color-border);
     border-color: var(--color-border);
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const DetailBBtn = styled.button`
+  font: inherit;
+  border: 1px solid grey;
+  border-radius: 15px;
+  background: white;
+  color: var(--color-font);
+  padding: 0.5rem 1.5rem;
+  box-shadow: 3px 3px 2px 1px grey;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    color: white;
+    background: grey;
+    border-color: grey;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const DetailBBBtn = styled.button`
+  font: inherit;
+  border: 1px solid grey;
+  border-radius: 15px;
+  background: white;
+  color: var(--color-font);
+  padding: 0.5rem 1.5rem;
+  box-shadow: 3px 3px 2px 1px black;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    color: white;
+    background: black;
+    border-color: black;
   }
   &:focus {
     outline: none;

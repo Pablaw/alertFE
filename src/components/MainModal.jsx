@@ -16,7 +16,6 @@ const MainModal = (props) => {
   const [isEdit, setIsEdit] = useState(true);
   const [content, setContent] = useState({});
   const [Cookie] = useCookies(["Authorization"]);
-  // const [cald, setCald] = useState({});
 
   const cal = calendar?.find(
     (calendars) => parseInt(calendars.calendarId) === modals
@@ -30,14 +29,19 @@ const MainModal = (props) => {
   };
 
   const onClickEditBtn = () => {
-    dispatch(
-      __patchcalendars([
-        { calendarId: cal.calendarId, content, endTime: cal.endTimeMillis },
-        Cookie,
-      ])
-    );
-    // setIsEdit(!isEdit);
-    navigate("/");
+    if (content === "") {
+      return alert("내용을 입력해주세요."),
+      setIsEdit(!isEdit);
+    } else {
+      dispatch(
+        __patchcalendars([
+          { calendarId: cal.calendarId, content, endTime: cal.endTimeMillis },
+          Cookie,
+        ])
+      );
+      // setIsEdit(!isEdit);
+      navigate("/")  
+    }
   };
 
   if (mods) {

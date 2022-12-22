@@ -12,9 +12,9 @@ const AddForm = () => {
 
   const [form, setForm] = useState({
     year: "2022",
-    month: "",
+    month: "01",
     day: "01",
-    hour: "",
+    hour: "00",
     minute: "00",
   });
 
@@ -25,7 +25,6 @@ const AddForm = () => {
   };
 
   const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
-
   const now = new Date();
   let years = [];
   for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
@@ -55,8 +54,12 @@ const AddForm = () => {
 
   let hours = [];
   for (let i = 0; i <= 23; i += 1) {
-    hours.push(i);
-  }
+    if (i < 10) {
+      hours.push("0" + i.toString());
+    } else {
+      hours.push(i.toString());
+    }
+  }// hours.push(i);
 
   let minute = [];
   for (let i = 0; i <= 50; i += 10) {
