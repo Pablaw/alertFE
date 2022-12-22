@@ -74,6 +74,7 @@ const Button = styled.button`
   color: var(--color-font);
   font-size: 15px;
   padding: 0.5rem 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 1.95px 1.95px 2.6px;
   cursor: pointer;
   &:focus {
     outline: none;
