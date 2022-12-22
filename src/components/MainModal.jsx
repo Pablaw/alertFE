@@ -16,12 +16,11 @@ const MainModal = (props) => {
   const [isEdit, setIsEdit] = useState(true);
   const [content, setContent] = useState({});
   const [Cookie] = useCookies(["Authorization"]);
-  // const [cald, setCald] = useState({});
 
   const cal = calendar?.find(
     (calendars) => parseInt(calendars.calendarId) === modals
   );
-  // console.log(cal);
+
   const onClickDeleteCalendar = (id) => {
     console.log(id);
     dispatch(__delcalendars([id, Cookie]));
@@ -41,10 +40,8 @@ const MainModal = (props) => {
         ])
       );
       // setIsEdit(!isEdit);
-      navigate("/")
-      
+      navigate("/")  
     }
-    
   };
 
   if (mods) {

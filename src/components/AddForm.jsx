@@ -25,7 +25,6 @@ const AddForm = () => {
   };
 
   const time = `${form.year}-${form.month}-${form.day}T${form.hour}:${form.minute}`;
-  console.log(time)
   const now = new Date();
   let years = [];
   for (let y = now.getFullYear() + 5; y >= 2000; y -= 1) {
