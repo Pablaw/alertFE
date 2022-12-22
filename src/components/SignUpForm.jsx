@@ -42,13 +42,6 @@ const SignupInputForm = () => {
       password: inputSubmitValue.password,
     };
 
-    if (logInSubmit) {
-      axios
-        .post("http://13.209.41.128:8080/auth/signup", signUp)
-        .then((res) => console.log(res.data.msg))
-        .catch((error) => console.log(error));
-    }
-
     const checkReg = //! 대문자, 소문자, 특수문자, 숫자 각 1개 이상 8자리 이상 15이하
       /^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[#?!@$ %^&*-]).{8,15}$/;
 
@@ -75,6 +68,10 @@ const SignupInputForm = () => {
     ) {
       setPasswordInvalid(false);
       setLogInSubmit(true);
+      axios
+        .post("https://kekeke.gq:8080/auth/signup", signUp)
+        .then((res) => console.log(res.data.msg))
+        .catch((error) => console.log(error));
     } else {
       setPasswordInvalid(true);
     }
