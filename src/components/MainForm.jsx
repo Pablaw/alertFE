@@ -28,24 +28,18 @@ const MainForm = () => {
     setModal(i);
     setMod(true);
   };
-  const gotCookie = () => {
-    setHasCookie(true);
-    dispatch(__getcalendars(Cookie));
-  };
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(__getcalendars(Cookie));
-      Cookie.Authorization === undefined ? setHasCookie(false) : gotCookie();
     }, 10);
+    Cookie.Authorization === undefined
+      ? setHasCookie(false)
+      : setHasCookie(true);
   }, [dispatch]);
 
   if (isLoading) {
-  return <div>Loading....</div>;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
+    return <div>Loading....</div>;
   }
   return (
     <React.Fragment>
@@ -88,7 +82,10 @@ const MainForm = () => {
                 return (
                   <StBox key={calendar.calendarId}>
                     <Stdiv>{calendar.content}</Stdiv>
-                    <DetailBtn type="button" onClick={() => openModal(calendar.calendarId)}>
+                    <DetailBtn
+                      type="button"
+                      onClick={() => openModal(calendar.calendarId)}
+                    >
                       상세보기
                     </DetailBtn>
                     <MainModal
